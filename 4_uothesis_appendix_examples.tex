@@ -5,17 +5,17 @@
 % Changes the table and figure counting to A.1 style
 \renewcommand\thefigure{\thechapter.\arabic{figure}}
 \renewcommand\thetable{\thechapter.\arabic{table}}
+\captionsetup{list=no}
 
 %--- Appendix A ---------------------------------------------------------------%
-\chapter{The First Appendix}
-\section{Appendix One Section One}
-\subsection{Chapter four section one sub-section one}
+\chapter{Supplemental material for Shared greatapes}
+\input{ga_appendix}
 
 %--- Appendix B ---------------------------------------------------------------%
 % Restart counting to B.1, B.2...
-\setcounter{figure}{0}
-\setcounter{table}{0}
-\chapter{The Second Appendix}
-\section{Appendix Two Section One}
-\subsection{Chapter two section one sub-section one}
+%\setcounter{figure}{0}
+%\setcounter{table}{0}
+%\chapter{The Second Appendix}
+%\section{Appendix Two Section One}
+%\subsection{Chapter two section one sub-section one}
 

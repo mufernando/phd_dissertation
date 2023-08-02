@@ -51,7 +51,7 @@
 %     - ...and probably more.
 
 % Examples:
-\documentclass[dissertation, final, apacite, copyright]{uothesis} % For final copies
+\documentclass[dissertation, final, copyright]{uothesis} % For final copies
 
 %\documentclass[dissertation, draftcopy]{uothesis} % For draft copies (enables line numbering, and puts black bars where there is text that overflows a line where latex can't figure out how to break it onto another line (in non-draft modes, this will result in an "overfull hbox" error, so draft mode is a good way of spotting these, following http://tex.stackexchange.com/a/39/56363)
 
@@ -63,9 +63,10 @@
 \usepackage[USenglish,UKenglish]{babel}
 \usepackage{mathtools,amsmath,amsfonts,amsthm,amssymb,bm, bbm}
 \usepackage{dcolumn,booktabs,longtable}
-\usepackage[singlelinecheck=false]{caption}
-  \captionsetup[subfigure]{singlelinecheck=on, labelfont=normalfont}
-  \captionsetup[figure]{labelfont=it}
+\usepackage[figurewithin=chapter,tablewithin=chapter]{caption}
+%\usepackage[singlelinecheck=false]{caption}
+%  \captionsetup[subfigure]{singlelinecheck=on, labelfont=normalfont}
+%  \captionsetup[figure]{labelfont=it}
 \usepackage{placeins}
 \usepackage{graphicx}
 \usepackage[space]{grffile} % allow spaces in graphics filenames.
@@ -81,7 +82,6 @@
 
 % Added by Jacob L. following https://tex.stackexchange.com/questions/148314/undefined-control-sequence-in-printbibliography-biblatex to allow UTF-8 (non-ASCII) characters in the bibliography .bib file.
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
 
 %------------------------------------------------------------------------------%
 % BIBLIOGRAPHY
@@ -102,6 +102,9 @@
 %
 %--- Or, if you want to change the citation style to e.g. acm
 % \bibliographystyle{acm}
+% Use biblatex for references - change style= as appropriate
+\usepackage[natbib=true,backend=biber,sorting=nyt,style=apa,sortcites=true]{biblatex}
+\addbibresource{dissertation.bib}
 
 %------------------------------------------------------------------------------%
 % MATH EQUATIONS AND THEOREMS (.cls also restructures theorem layout)
@@ -117,3 +120,97 @@
 \appto{\small}{\zerodisplayskips}
 \appto{\footnotesize}{\zerodisplayskips}
 
+\usepackage{lineno}
+%\usepackage{authblk}
+\usepackage{xparse}
+\usepackage{xpunctuate}
+\usepackage{wrapfig}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage[all]{hypcap}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{flafter}
+\usepackage{floatrow}
+\usepackage{cancel}
+\usepackage{pdfpages}
+\usepackage{lscape}
+\usepackage{fancyhdr}% http://ctan.org/pkg/fancyhdr
+\fancypagestyle{pdflandscape}{%
+\fancyhf{}% Clear header/footer
+  \fancyfoot{% Footer
+    \makebox[\textwidth][r]{% Right
+      \rlap{\hspace{\footskip}% Push out of margin by \footskip
+        \smash{% Remove vertical height
+          \raisebox{\dimexpr.5\baselineskip+\footskip+.5\textheight}{% Raise vertically
+            \rotatebox{90}{\thepage}}}}}}% Rotate counter-clockwise
+  \renewcommand{\headrulewidth}{0pt}% No header rule
+  \renewcommand{\footrulewidth}{0pt}% No footer rule
+}
+%\usepackage[position=top, label font=bf,labelformat=simple]{subfig}
+%%%
+%\graphicspath{ {./figures/} }
+%\floatsetup[figure]{style=plain, subcapbesideposition=top}
+%\floatsetup[table]{style=Plaintop}
+% local definitions
+\newcommand{\msprime}[0]{\texttt{msprime}\xspace}
+\newcommand{\tskit}[0]{\texttt{tskit}\xspace}
+\newcommand{\slim}[0]{\texttt{SLiM}\xspace}
+\newcommand{\pyslim}[0]{\texttt{pyslim}\xspace}
+\newcommand{\allel}[0]{\texttt{scikit-allel}\xspace}
+\newcommand*{\eg}{e.g.\xcomma}
+\newcommand*{\ie}{i.e.\xcomma}
+\NewDocumentCommand{\plcref}{m O{\empty}}{(\Cref{#1}{#2})}
+\NewDocumentCommand{\lcref}{m O{\empty}}{\Cref{#1}{#2}}
+\newcommand{\comment}[1]{}
+\newcommand{\beginsupplement}{%
+    \setcounter{table}{0}
+    \renewcommand{\thetable}{S\arabic{table}}%
+    \setcounter{figure}{0}
+    \renewcommand{\thefigure}{S\arabic{figure}}%
+}
+
+\newcommand{\E}{\operatorname{E}}
+
+\newcommand{\Var}{\operatorname{Var}}
+
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Cor}{\operatorname{Cor}}
+
+\newcommand{\SD}{\operatorname{SD}}
+
+\newcommand{\expnumber}[2]{{#1}\times10^{#2}}
+
+\newcommand{\pianc}{\pi^{\mathrm{anc}}}
+
+\def\fillandplacepagenumber{%
+ \par\pagestyle{empty}%
+ \vbox to 0pt{\vss}\vfill
+ \vbox to 0pt{\baselineskip0pt
+   \hbox to\linewidth{\hss}%
+   \baselineskip\footskip
+   \hbox to\linewidth{%
+     \hfil\thepage\hfil}\vss}}
+
+
+% from http://tex.stackexchange.com/questions/43648/why-doesnt-lineno-number-a-paragraph-when-it-is-followed-by-an-align-equation/55297#55297
+\ifcsname{patchAmsMathEnvironmentForLineno}\endcsname
+    \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+      \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+      \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+      \renewenvironment{#1}%
+         {\linenomath\csname old#1\endcsname}%
+         {\csname oldend#1\endcsname\endlinenomath}}%
+    \newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+      \patchAmsMathEnvironmentForLineno{#1}%
+      \patchAmsMathEnvironmentForLineno{#1*}}%
+    \AtBeginDocument{%
+    \patchBothAmsMathEnvironmentsForLineno{equation}%
+    \patchBothAmsMathEnvironmentsForLineno{align}%
+    \patchBothAmsMathEnvironmentsForLineno{flalign}%
+    \patchBothAmsMathEnvironmentsForLineno{alignat}%
+    \patchBothAmsMathEnvironmentsForLineno{gather}%
+    \patchBothAmsMathEnvironmentsForLineno{multline}%
+\fi
+
+\newcommand{\savenumberline}{}% reserve global name

@@ -110,7 +110,6 @@
 \fi\fi
 \LoadClass{report}
 \RequirePackage[letterpaper]{geometry} % Prevents from using A4
-\RequirePackage{float}
 %\RequirePackage{subfig}
 \RequirePackage{subcaption}
 \RequirePackage[dvipsnames]{xcolor}
@@ -176,8 +175,6 @@
 \newcommand*{\etc}{\@ifnextchar.{\cst@etc}{\cst@etc.\cst@xspace}}
 \newcommand*{\invacuo}{\cst@latin{in vacuo}\cst@xspace}
 \newcommand*{\etal}{\@ifnextchar.{\cst@etal}{\cst@etal.\cst@xspace}}
-\newcommand*{\eg}{\cst@eg.}
-\newcommand*{\ie}{\cst@ie.}
 \newcommand*{\cst@etal}{\cst@latin{et~al}}
 \newcommand*{\cst@etc}{\cst@latin{etc}}
 \newcommand*{\cst@ie}{\cst@latin{i.e\spacefactor999\relax}}
