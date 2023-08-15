@@ -1,23 +1,57 @@
-%--- Chapter 1 ----------------------------------------------------------------%
 \chapter{Introduction}
+
+Evolutionary biology is unlike other fields within biology in that hypotheses can not always be subject to experimentation,
+because evolution can occur over incredibly large spatial scales over the course of thousands to millions of years.
+Thus, we are left with the task of putting together what happened in the past based on information we have today.
+To do so we need a sizable amount of data, models and statistical tools.
+
+One way to make inference about past evolutionary processes is by studying genetic variation within and between species.
+Evolutionary processes, such as demographic processes, natural selection and mutation, impact the genetic variation in many ways.
+For example, with higher mutation rates, we expect to see more variation within a species.
+On the other hand, in finite populations genetic variation is lost due to sampling (or genetic drift).
+
+We can write models in form of math equations that describe how some of these evolutionary processes impact genetic variation.
+For example, $\pi$ (a metric of genetic variation) depends on the size of the population ($N$) and the mutation rate ($\mu$), such that $\pi \sim 4N\mu$.
+If we knew the mutation rate, we could rearrange the equation to estimate the size of a population $N = \frac{\pi}{4\mu}$!
+The simple equation, however, does not hold in real world conditions, because there are assumptions behind the equality that are unrealistic.
+For example, the equation assumes that an individual is equally likely to mate with any other individual.
+Although this simplifying assumption could hold for some species, it is clear that it would not hold for humans, for example.
+People are much more likely to mate with someone that lives where they live.
+
+Adding this geographical realism to our math equation would prove to be quite complicated.
+Alternatively, we can more easily simulate this process with a computer:
+that is, we can create virtual individuals and tell a computer how they mate and change over time.
+If we were to do this many times, it would be possible to obtain a map from 
+
+% What are the major questions in evolutionary genetics?
+
+% What challenges are in the way of answering these questions?
+
+% Data is not a limitation anymore
+
+% Computational and simulation advancements
+
+% This makes simulation-based inference attractive to solve big problems in evo gen. What is simulation-based inference and how can it be applied to evogen?
+
+% To make simulation-based inference possible, we need to maintain and develop scalable, tested and documented tools in pop gen (Chapter 1)
+
+% In chapter 2, we present a large scale simulation study investigating the role of positive and negative selection in shaping genetic variation.
+
+% In chapter 3, we develop a supervised machine learning method to infer evol params from data, exploring new facet of genetic variation.
+
+
 \section{Chapter One Section One}
 \subsection{Chapter one section one sub-section one}
-\subsubsection{Chapter one section one sub-section one sub-sub-section one}
 
-%--- Chapter 2 ----------------------------------------------------------------%
-\chapter{Methodology}
-\section{Chapter Two Section One}
+\chapter{Inferring evolutionary parameters from whole-genome genealogies using machine learning}
 
-%%--- Chapter 3 ---------------------------------------------------------------%
-\chapter{Results}
-\section{Chapter Three Section One}
-\subsection{Chapter three section one sub-section one}
-\subsubsection{Chapter three section one sub-section one sub-sub-section one}
+% Population genetic inference has relied on summaries of genotype data
 
+% A tree structure can make evolutionary events and processes more readily interpretable. And now these can be estimated.
 
-%--- Chapter 4 ----------------------------------------------------------------%
-\chapter{Conclusion}
-\section{Chapter Four Section One}
-\subsection{Chapter four section one sub-section one}
-\subsubsection{Chapter four section one sub-section one sub-sub-section one}
+% Still, we rely on summaries of these trees to make inference.
+
+% Developments in machine learning now allow for supervised learning based off of graphs.
+
+% Here, we apply networks that take the graph structure into account to infer evolutionary parameters.
 
