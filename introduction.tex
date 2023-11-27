@@ -1,6 +1,6 @@
 \chapter{Introduction}
 
-\section{A more approachable introduction}
+\section{Decoding evolution: a lay-friendly prelude}
 Evolution can occur over incredibly large spatial scales over the course of thousands to millions of years.
 This makes Evolutionary biology unlike other fields within Biology in that hypotheses can not always be subject to experimentation.
 Thus, we are left with the task of putting together what happened in the past based on information we have today.
@@ -17,7 +17,7 @@ For example, $\pi$ (a metric of genetic variation) depends on the size of the po
 If we knew the mutation rate, we could rearrange the equation to estimate the size of a population $N = \frac{\pi}{4\mu}$ from genetic data!
 To arrive at this simple equation, we make the assumption that an individual is equally likely to mate with any other individual in the population (\ie panmixia).
 It is easy to see how this may not always hold:
-for example, a tree is much more likely to mate with another that lives close to it.
+for example, a tree is much more likely to mate with another that lives close to it (because pollen cannot travel too far).
 
 Adding biological realism to our math equation would prove to be complicated.
 Alternatively, we can more easily simulate this process with a computer:
@@ -36,16 +36,17 @@ Lastly, I wanted to build a proper statistical method that uses simulations to i
 In my fourth chapter, I present a new method for evolutionary inference that uses genealogical trees along chromosomes (instead of tables with samples and mutations).
 These trees capture the genetic data perfectly,
 but they are much more scalable (use less space) and
-they organize the data in a way that could be more conducive to extracting evolutionary information.
+they organize the data in a way that could be more conducive to extracting relevant evolutionary information.
 
-\section{A more specialized introduction}
+\section{The current landscape in evolutionary inference}
 
 % What are the major questions in evolutionary genetics?
 Many questions in evolutionary biology are of a historical nature,
 because evolution is restrict in space and time and it cannot be replicated.
 An avenue for investigating past evolutionary events and processes lies in genetic data.
-Evolutionary processes leave footprints on the genetic composition of populations,
-so it might be possible to invert this relationship and use genetic data to infer the past.
+As evolutionary processes leave footprints on the genetic composition of populations,
+the possibility arises to invert this relationship,
+that is to use genetic data for the inference of past events.
 Indeed, much of the field of evolutionary genetics is tasked with trying to infer past evolutionary events and processes from genetic data.
 Some of the major questions the field has been interested in are:
 Is it possible to find regions of the genome that were affected by natural selection?
@@ -53,13 +54,36 @@ Can we infer the movement of individuals and changes in population sizes over ti
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
 
 
-% Data is not a limitation anymore
-It has become clear that these questions I posed earlier cannot be investigated independently.
+% What challenges are in the way of answering these questions?
+It has become clear that these questions cannot be investigated independently.
 That is, to find regions of the genome under selection you need to understand the demographic history of populations,
 and to infer demography from genetic data it is necessary to understand the effects of selections on genomes.
+It is not possible to investigate each process in isolation because
+(i) different processes can impact genetic variation in similar ways,
+and (ii) modelling interactions between processes is not trivial.
+
+% What kinds of signatures do evol processes leave on genetic data?
+Inferring demographic processes from genetic data usually entail figuring out how these processes impact the underlying genealogies.
+For example, if a population suddenly goes through a major bottleneck, we expect to see most of the coalescences concentrated during the bottleneck period.
+On the other hand, population expansions can lead to trees that have coalescences concentrated in the period before the population expansion.
+The underlying genealogies yield different patterns of genetic variation in the extant population.
+One summary of genetic data that can be used to distinguish between these tree shapes and, in turn, between possible demographies is the site frequency spectrum (SFS).
+The SFS is the distribution of allele frequencies across sites in some sampled genomes.
+(For the sake of simplicity, I will focus on the unfolded SFS, where the frequency of the derived alleles have been measured; derived allele refers to the allele that is new to a population, which can be established by finding the ancestral allele with outgroups).
+A genealogy that has coalescences concetrated at the tips (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency of derived alleles.
+Conversely, a genealogy with coalescences happening earlier on will yield a SFS in which derived alleles are rare.
+
+% Natural selection and the ways it impacts genetic variation
+Natural selection also affect coalescence rates and shapes of genealogies.
+Most notably, when a new beneficial mutation arises in a population it rapidly reaches fixation.
+This leads to many of the coalescences to occur during the fixation trajectory.
+If we were to sample the population at the end of this processes,
+the SFS would be skewed towards the high frequencies, similar to the effect of a population bottleneck.
 
 
-% What challenges are in the way of answering these questions?
+
+
+% Data is not a limitation anymore
 Genetic data collection has increased exponentially over the past two decades.
 Now, it is possible to sequence whole genomes for thousands of samples across multiple populations with relative ease.
 
