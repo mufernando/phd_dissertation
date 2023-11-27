@@ -42,8 +42,9 @@ Both of these processes leave similar footprints on patterns of within-species g
 and so attempts to determine the contributions of positive and negative selection in 
 shaping levels of genetic variation genome-wide have proven to be difficult \parencite{kim_joint_2000, andolfatto_adaptive_2001},
 although the processes seem separable more locally \parencite{schrider_soft_2017,schrider_background_2020}.
-Importantly, linked selection has more limited effects on between-species genetic divergence,
-as a beneficial or deleterious mutation does not affect the substitution rate of linked, neutral mutations \citep{birky_effects_1988}.
+Importantly, linked selection does not affect between-species genetic divergence as strongly,
+as a beneficial or deleterious mutation does not affect the substitution rate of linked, neutral mutations \citep{birky_effects_1988}
+(although it does affect divergence through ancestral levels of polymorphism \citep{begun_population_2007, phung_determining_2016}).
 
 
 
@@ -91,12 +92,12 @@ Earlier empirical surveys have focused on the identification of regions of
 accentuated relative divergence between populations \parencite{cruickshank_reanalysis_2014, harr_genomic_2006, turner_genomic_2005},
 although patches of increased divergence can be the result of myriad forces besides reproductive isolation and adaptation.
 Recent comparative studies have found that landscapes of diversity are highly correlated between related groups of species,
-such as \textit{Ficedula} flycatchers \citep{burri_linked_2015, ellegren_genomic_2012}, warblers \citep{irwin_recurrent_2016}, stonechats \citep{doren_correlated_2017}, hummingbirds \citep{battey_evidence_2020}, monkeyflowers \citep{stankowski_widespread_2019}  and \textit{Populus} \citep{wang_evidence_2020}.
+such as \textit{Ficedula} flycatchers \citep{burri_linked_2015, ellegren_genomic_2012}, warblers \citep{irwin_recurrent_2016}, stonechats \citep{van_doren_correlated_2017}, hummingbirds \citep{battey_evidence_2020}, monkeyflowers \citep{stankowski_widespread_2019}  and \textit{Populus} \citep{wang_evidence_2020}.
 \citet{burri_interpreting_2017} proposed that we could capitalize on correlated genomic landscapes to study the interplay between different forms of selection and other evolutionary processes.
-Neutral processes, such as incomplete lineage sorting or migration, could potentially produce significant correlations in levels of diversity across species,
+Neutral processes, such as retained ancestral diversity (i.e., incomplete lineage sorting) or migration, could potentially produce significant correlations in levels of diversity across species,
 however strong correlations have been observed among taxa with long divergence times and without evidence of gene flow. 
 For example, \citet{stankowski_widespread_2019} found that landscapes of diversity and divergence are highly correlated across a radiation of monkeyflowers which spans one million year (or about $10N_e$ generations, where $N_e$ is the effective population size),
-far longer than what is relevant for incomplete lineage sorting (\ie the coalescent timescale spans just a few multiples of $N_e$).
+far longer than the time scale on which we expect to see effects of ancestral variation and incomplete lineage sorting (since the coalescent timescale spans just a few multiples of $N_e$).
 However, a shared process that independently occurs in the branches of a group of species could maintain correlations over long timescales.
 For example, if two species' physical arrangement of functional elements and local recombination rates are similar,
 the direct and indirect effects of selection could make it so that peaks and valleys on the landscape of diversity are similar,
@@ -167,19 +168,24 @@ Further, neutral mutations were not simulated with \slim and were added after th
 The resulting tree sequences were later joined and recapitated (\ie we simulated genetic variation in the ancestor of all great apes using the coalescent) using \msprime, \tskit and \pyslim \citep{kelleher_efficient_2016, kelleher_efficient_2018, rodrigues_vignette_2021}.
 Despite our efforts to improve run time, our simulations of the entire history of the great apes were still incredibly costly (taking over a month to complete in many instances).
 
-In our neutral simulations, we assumed that neutral mutations occurred at a rate of $\expnumber{2}{-8}$ new mutations per generation per site, uniformly across the chromosome.
+In our neutral simulations, we assumed that neutral mutations occurred at a rate of $\expnumber{2}{-8}$ new mutations per generation per site \citep{scally_revising_2012}, uniformly across the entire chromosome.
 To understand the effects of natural selection on landscapes, we simulated beneficial and deleterious mutations only within exons,
 assuming that the locations of exons were shared across all great apes \citep{kronenberg_high-resolution_2018} and using exon annotations from the human reference genome NCBI36/hg18.
 We varied the proportions of neutral, beneficial and deleterious mutations within exons, 
-but the distribution of fitness effects for both deleterious and beneficial mutations were shared across all apes.
-In total, we explored 26 different parameter combinations with different simulations (see \lcref{tab:sim_space} and \lcref{tab:sim_params} for the parameter space).
+but the distribution of fitness effects (DFE) for both deleterious and beneficial mutations were shared across all apes.
+The DFE for deleterious mutations was gamma-distributed with a fixed shape $\alpha$ and scale as estimated in \citet{castellano_comparison_2019},
+and the DFE for beneficial mutations followed an exponential distribution \citep{orr_distribution_2003}.
 
-To simulate local variation in mutation rates along the chromosome, 
-we used the neutral genealogy we simulated with \slim (and recapitated with \msprime) and stripped all existing mutations from it.
-Using this genealogy, we added neutral mutations back with varying levels of (neutral) mutation rate variation along the chromosome (using \msprime).
-We built mutation rate maps by sampling mutation rates for each 1Mb window independently from a normal distribution with mean $\expnumber{2}{-8}$
-and standard deviation chosen from $\frac{\sigma}{\expnumber{2}{-8}} = \{ 0.010, 0.017, 0.028, 0.046, 0.077, 0.129,\allowbreak 0.215, 0.359, 0.599, 1.000 \}$.
-
+By default, we added neutral mutations to the simulated genealogies with \msprime ~so that the total mutation rate
+(of neutral plus non-neutral mutations, if any) was constant along the genome.
+In addition, to simulate local variation in mutation rates along the chromosome, 
+we selected three simulated genealogies (the fully neutral simulation, one with deleterious mutations and one with both beneficial and deleterious mutations)
+to add neutral mutations in a way that resulted in varying levels of neural mutation rate variation along the chromosome.
+To do this, we built mutation rate maps by sampling mutation rates for each 1Mb window independently from a normal distribution with mean $\expnumber{2}{-8}$
+and standard deviation chosen from $\sigma / \expnumber{2}{-8} = \{ 0.005, 0.007, 0.011, 0.016, 0.023, 0.033,\allowbreak 0.048, 0.070. 0.103, 0.150 \}$.
+In simulations with non-neutral mutations, we subtracted the non-neutral mutation rate from the respective window mutation rate for the intervals that intersected with exons.
+In total, we explored 56 different parameter combinations with all the different simulations (see \lcref{tab:sim_space} and \lcref{tab:sim_params} for the parameter space).
+The code used to produce the simulations can be found at \url{https://github.com/kr-colab/greatapes_sims}.
 
 \begin{table}[htb]
 \caption[Range of parameters explored in the simulations]{Range of parameters explored in the simulations. Non-neutral mutations were only allowed within exons. 
@@ -215,8 +221,10 @@ The choice was made blindly before looking at the data, but we found it behaves 
 We expected landscapes of two closely related species to be more correlated than the landscapes of two distantly related species.
 Thus, the correlation between any two landscapes of diversity and divergence is expected to depend on distances between them in the phylogenetic tree.
 We decided to plot our correlations against distance (in generations) between the most common recent ancestor (MRCA) of each landscape.
+These distances were computed using the demographic model estimated in \citet{prado-martinez_great_2013}.
 In comparing two landscapes of diversity, this amounts to the total distance between the two tips in the species tree.
-For instance, the phylogenetic distance $dT$ between diversity in humans and diversity in bonobos is the sum of the lengths of the human, pan and bonobo branches in the species tree \plcref{fig:sim_demog}.
+For instance, the phylogenetic distance $dT$ between diversity in humans and diversity in bonobos is the sum of the lengths of the human, pan and bonobo branches
+in the species tree used for simulation (shown in \lcref{fig:sim_demog}).
 In comparing a landscape of diversity to a landscape of divergence, this amounts to the distance between the species of the landscape of diversity and the MRCA of the two species involved in the divergence.
 For example, $dT$ for the landscapes of diversity in humans and divergence between Sumatran orangutans and eastern gorillas would be the distance between the humans tip and the great apes internal node.
 $dT$ for the landscapes of divergence between the orangutans and divergence between the gorillas would be the distance between the orangutan and gorilla internal nodes.
@@ -277,8 +285,7 @@ Below, we dissect this observation of strong correlation between landscapes acro
 \centering
 \caption[Landscapes of diversity, divergence, recombination rate and exon density]{
 A) Landscapes of nucleotide diversity ($\pi$) and divergence ($d_{XY}$) in 1Mb windows along chromosome 12.
-Nucleotide diversity and divergence ($d_{XY}$) across 1Mb windows (non-overlapping) of chromosome 12 are displayed above.
-Lines are colored by species on the left plot and by the most common recent ancestor (MRCA) on the right.
+Lines are colored by species on the top plot and by the most common recent ancestor (MRCA) on the bottom.
 Genomic windows with less than 40\% of callable sites were masked.
 Only a subset of the species are displayed for clarity.
 B) Recombination rate estimates from humans (deCODE map; \cite{kong_fine-scale_2010}).
@@ -294,14 +301,13 @@ To interpret this signal, we first need to understand what processes can cause s
 and so first we describe the toy example depicted in \lcref{fig:conceptual_tree}.
 Both genetic diversity ($\pi$) and divergence ($d_{XY}$) are estimates of the mean time to the most recent common ancestor (multiplied by twice the effective mutation rate).
 Populations \emph{V} and \emph{W} split recently, 
-and so samples from one population may coalesce first with a sample from another population (\eg samples $v_2$ and $w_1$),
-a pattern called incomplete lineage sorting (ILS).
-This causes $\pi_V$ and $\pi_W$ to be correlated with each other, 
-as they share some ancestral variation (see the branch marked with \emph{*} in the gene tree).
+and so ancestral variation contributes significantly to within-species diversity (\ie the coalescences for samples within species happen before the species split).
+As a result, samples from one population may coalesce first with a sample from another population (\eg samples $v_2$ and $w_1$),
+a pattern called incomplete lineage sorting (ILS) (see the branch marked with \emph{*} in the gene tree).
+This sharing of ancestral variation causes $\pi_V$ and $\pi_W$ to be correlated with each other.
 The probability two samples from \emph{V} coalesce before the split with \emph{W} is $1-e^{\frac{-T}{2N_e}}$,
 where $T$ is the split time and $N_e$ is the effective population size.
-With longer split times ($T$), we would expect less incomplete lineage sorting; 
-therefore, split time ($T$) should be a good predictor of the correlation between two landscapes of diversity (and/or divergence).
+Therefore, split time ($T$) should be a good predictor of the correlation between two landscapes of diversity (and/or divergence).
 Thus, we decided to visualize correlations between landscapes of diversity and divergence by computing the phylogenetic distance $dT$, which is simply the distance in generation time between two statistics.
 For example, we define $dT(\pi_W, d_{XY}) = 2T_{VWXY} - T_{XY}$.
 Divergences may share branches by definition (irrespective of split times), as you can see with $d_{VX}$ and $d_{XY}$ (see \autoref{sec:methods:visualizing} for more details).
@@ -312,11 +318,12 @@ See \autoref{sec:methods:visualizing} and \lcref{fig:land_cors_bo} for more on t
 \includegraphics[width=\linewidth]{{figures/conceptual_tree_option2@2x.png}}
 \centering
 \caption[Visualizing the relationships between nucleotide diversity and divergence statistics between closely related taxa]{Visualizing the relationships between nucleotide diversity and divergence statistics between closely related taxa. 
-A population and gene tree for four populations (V, W, X, Y) are depicted with the light gray polygon and gray solid line, respectively.}
+A population and gene tree for four populations (V, W, X, Y) are depicted with the light gray polygon and gray solid line, respectively.
+The branch that is shared between $\pi_V$ and $\pi_W$ due to incomplete lineage sorting is highlighted in pink.}
 \label{fig:conceptual_tree}
 \end{figure}
 
-\lcref{fig:land_cors} shows the pairwise correlations between great apes landscapes of diversity and divergence against phylogenetic distance ($dT$).
+\lcref{fig:land_cors} shows the pairwise correlations between great apes landscapes of diversity and divergence against phylogenetic distance ($dT$, which is computed from the split times of the model shown in \lcref{fig:sim_demog}).
 We see ancestral variation seems to play a role in structuring correlations between landscapes: 
 pairs of species that recently split have their landscapes of diversity highly correlated.
 Surprisingly, correlations still plateau at around $0.5$.
@@ -332,7 +339,7 @@ In theory, these landscapes can also be correlated due to ancestral variation.
 To see how ancestral variation can create correlations even between landscapes with no overlap in the tree, consider \lcref{fig:conceptual_tree}:
 divergence between X and Y and divergence between V and W can each contain contributions from ancestral diversity if lineages have not coalesced in both branches leading from the ancestor.
 If a particular portion of the genome happens to have higher diversity in the ancestor, it will also have higher divergence.
-Since this correlation is produced by incomplete lineage sorting, it is expected to have a very small effect except when branches are short.
+Since this correlation is produced by sharing of ancestral variation, it is expected to have a very small effect except when branches are short.
 As discussed in \autoref{sec:methods:visualizing}, two divergences can also be correlated by definition (because they share branches in the tree).
 For example, when comparing human-Bornean orangutan and gorilla-Bornean orangutan divergence we expect some correlation because these divergences share the large African apes and orangutan branches in the tree \plcref{fig:sim_demog}.
 In \lcref{fig:land_cors} we excluded these comparisons where branches are shared.
@@ -390,38 +397,12 @@ but when we look at multiple species at once it becomes clear that the mean corr
 \end{figure}
 
 
-\subsection{Mutation rate variation}
-
-Since mutation rate can vary along chromosomes,
-if this mutation rate map were shared across species,
-it would maintain correlations between landscapes over longer periods of time.
-To assess this, we used our existing simulated neutral history of the great apes and replaced all mutations
-assuming a common mutation rate map across all great apes:
-for each window, we drew a mutation rate from a normal distribution with mean $\expnumber{2}{-8}$ (the same as all other simulations) 
-and standard deviation $\mu_{\SD}$.
-We found that a mutation rate map with $\mu_{\SD}$ close to $8\%\times\expnumber{2}{-8}$ would be needed to get correlations similar to the data \plcref{fig:mutvar_land_cors}[C].
-Although mean correlations look similar to the data, we see that correlations tend to increase slightly with time in the simulations with mutation rate variation.
-This is expected because windows with higher mutation rate accumulate divergence faster, creating a correlation with mutation rate that gets stronger with time.
-In the great apes' data, however, we see a slow but steady decrease in correlations with time.
-
-\begin{figure}[htp]
-\includegraphics[width=\linewidth]{{figures/cor-pidxy-dT_selected-mutvar-sims.pdf}}
-\centering
-\caption[Correlations between landscapes of diversity and divergence across the great apes for simulations with variation in mutation rate along the chromosome]{
-Correlations between landscapes of diversity and divergence across the great apes for simulations with variation in mutation rate along the chromosome.
-Panels A, B, C, and D show different simulations in which we varied the standard deviation in mutation rate between 1Mb windows,
-in each setting the standard deviation to the mean mutation rate ($\expnumber{2}{-8}$) multiplied by $\mu_{\SD}$.
-Other details are as in \lcref{fig:land_cors}.
-}
-\label{fig:mutvar_land_cors}
-\end{figure}
-
 \subsection{GC-biased gene conversion}
 
 A prominent feature of the landscapes of divergence in the great apes 
 is the faster accumulation of divergence in the ends of the chromosomes \plcref{fig:chr12_landscapes}.
 This feature was not present in any of our simulations, so we sought to understand its possible causes.
-Double strand breaks are more common at the ends of chromosomes, and
+Double strand breaks are more common at the ends of chromosomes \citep{kong_high-resolution_2002}, and
 these can be repaired either by crossover or gene conversion events.
 GC-biased gene conversion (gBGC), the process whereby weak alleles (A and T) are replaced by strong alleles (G and C) in the repair of double-stranded breaks in heterozygotes,
 mimics positive selection -- in that it increases the probability of fixation of G and C alleles \citep[e.g.,][]{galtier_gc-biased_2009}.
@@ -503,9 +484,44 @@ Correlations between landscapes of diversity and divergence in simulations with 
 (G-I) Simulations with both negative and positive selection. 
 The selection parameters $\mu_n$ and $\mu_p$ are the rate of mutations in exons with negative and positive fitness effects, respectively.
 The mean fitness effect was $\bar{s}=-0.03$ for deleterious mutations and $\bar{s}=0.01$ for beneficial mutations (see \autoref{sec:methods:simu} for more details).
-Compare to \lcref{fig:land_cors}.
+See how panel H looks the most like the data \plcref{fig:land_cors}.
 }
 \label{fig:sims_land_cors}
+\end{figure}
+
+\subsection{Mutation rate variation}
+
+Since mutation rate can vary along chromosomes,
+if this mutation rate map were shared across species,
+it would maintain correlations between landscapes over longer periods of time.
+To assess this, we used three of our previous simulated genealogies of the great apes and replaced all neutral mutations
+assuming a common neutral mutation rate map across the phylogeny:
+for each window, we drew a mutation rate from a normal distribution with mean $\expnumber{2}{-8}$ (the same as all other simulations) 
+and standard deviation $\mu_{\SD}$.
+We found that, under neutrality, a mutation rate map with $\mu_{\SD}$ close to $7\%\times\expnumber{2}{-8}$ would be needed to get correlations similar to the data \plcref{fig:mutvar_land_cors}[A-C].
+Although mean correlations look similar to the data, we see that correlations tend to increase slightly with time in the simulations with mutation rate variation.
+This is expected because windows with higher mutation rate accumulate divergence faster, creating a correlation with mutation rate that gets stronger with time.
+In the great apes' data, however, we see a slow but steady decrease in correlations with time.
+
+When we added variation in the neutral mutation rate to simulations with selection, 
+we found that a mutation rate map with a standard deviation of rates of slightly less than $\mu_{\SD}=7\%$ could plausibly create the correlations observed in the real data \plcref{fig:mutvar_land_cors}[D-I].
+The neutral and deleterious simulations with mutation rate variation fail to recover one aspect of the real data: the lower correlations between landscapes that include at least one low $N_e$ species (seen in the $\pi-\pi$ and $\pi-d_{XY}$ comparisons of \lcref{fig:land_cors}).
+This feature, however, is seen in the simulations with both beneficial and deleterious mutations \plcref{fig:mutvar_land_cors}[G-I].
+
+\begin{figure}[htp]
+\includegraphics[width=\linewidth]{{figures/cor-pidxy-dT_selected-mutvar-sims.pdf}}
+\centering
+\caption[Correlations between landscapes of diversity and divergence across the great apes for simulations with variation in mutation rate along the chromosome]{
+Correlations between landscapes of diversity and divergence across the great apes for simulations with variation in mutation rate along the chromosome.
+Panels A through I show different simulations in which we varied the standard deviation in neutral mutation rate between 1Mb windows,
+in each setting the standard deviation to the mean mutation rate ($\expnumber{2}{-8}$) multiplied by $\mu_{\SD}$.
+First row (A-C) use a neutral simulation, second row (D-F) a simulation with negative selection, and third row (G-I) a simulation with both positive and negative selection.
+The selection parameters $\mu_n$ and $\mu_p$ are the rate of mutations in exons with negative and positive fitness effects, respectively.
+The mean fitness effect was $\bar{s}=-0.03$ for deleterious mutations and $\bar{s}=0.01$ for beneficial mutations (see \autoref{sec:methods:simu} for more details).
+See how without selection (A-C), the simulation with $\mu_{\SD}=7\%$ (panel B) looks close to the data \plcref{fig:land_cors}.
+With selection, the simulation with both positive and negative selection and $\mu_{\SD}=3.3\%$ looks even more similar to the data (correlations between divergences decay over time, and there is a more pronounced differentiation between low and high $N_e$ comparisons).
+}
+\label{fig:mutvar_land_cors}
 \end{figure}
 
 \subsection{Visualizing similarity between simulations and data}
@@ -515,10 +531,16 @@ to compare how the patterns of all 1260 pairwise correlations between landscapes
 However, it is difficult to assess the fit of the simulated scenarios to real data from such a comparison.
 Instead, we use principal component analysis (PCA) and create a low dimensional visualization,
 shown in \lcref{fig:pca}, in which each point is a simulation or the real data (shown in yellow).
-We created this PCA from the matrix $37\times1260$ in which rows are the simulations and the data, and columns are the pairwise Spearman correlations between landscapes.
+We created this PCA from the $57\times1260$ matrix in which rows are the simulations and the data, and columns are the pairwise Spearman correlations between landscapes.
 Unlike in the plots above, here we include the correlations between overlapping landscapes (as detailed in \autoref{sec:methods:visualizing}) \plcref{fig:pca}.
 In PC space,
-the data most closely resembles a subset of our simulations with both positive and negative selection ($\bar{\mu_p}=\expnumber{1}{-12}$ and $\bar{\mu_n}=\expnumber{1.2}{-8}$) 
+the data most closely resembles a subset of our simulations with both positive and negative selection (\eg $\bar{\mu_p}=\expnumber{1}{-12}$ and $\bar{\mu_n}=\expnumber{1.2}{-8}$),
+including no or very little variation in mutation rates (less than $4\%$).
+
+We also performed PCA on correlations computed at two different scales, 500Kb and 5Mb, in addition to the previously shown results for 1Mb (\lcref{fig:pca500kb}, \lcref{fig:pca5mb}).
+At 500Kb, the observed data are slightly more distant from simulations than at the higher scales,
+possibly because the recombination map used in simulations had a coarser resolution.
+Nevertheless, the observed data most closely match the simulations with both positive and negative selection in all scales.
 
 
 
@@ -526,10 +548,16 @@ the data most closely resembles a subset of our simulations with both positive a
 \includegraphics[width=0.7\linewidth]{{figures/data-and-sims_pca.pdf}}
 \centering
 \caption[PCA visualization of data and simulations]{
-PCA visualization of data and simulations.
-The colors differentiate the empirical data from simulations with different parameters: Neutral refers to the simulation without any selection, BGS refers to simulations with deleterious mutations, Sweeps refers to simulations with beneficial mutations, Both refers to simulations with both beneficial and deleterious, and MRV refers to neutral simulations with variable mutation rates along the chromosome.
-Principal component analysis (PCA) applied to a matrix with all pairwise correlations between landscapes across the great apes 
-(including $\pi-\pi$, $\pi-d_{XY}$ and $d_{XY}-d_{XY}$ comparisons) for the great apes dataset and simulations (with selection and with mutation rate variation).
+Principal component analysis (PCA) visualization of data and simulations.
+Colors differentiate the empirical data from simulations with different parameters:
+``Neutral'' refers to the simulation without any selection,
+``Deleterious'' refers to simulations with deleterious mutations,
+``Positive'' refers to simulations with beneficial mutations,
+``Both'' refers to simulations with both beneficial and deleterious mutations.
+The shape of the points differentiate simulations with constant mutation rate along the genome and variable local mutation rates.
+Local variation in mutation rates were added on top of three simulations: neutral, deleterious with $\mu_n= \expnumber{1.4}{-8}$, and both with $\mu_n= \expnumber{1.2}{-8}$ and $\mu_p= \expnumber{1}{-12}$.
+The PCA performed on a matrix containing all pairwise correlations between landscapes across the great apes 
+(i.e., all $\pi-\pi$, $\pi-d_{XY}$ and $d_{XY}-d_{XY}$ comparisons) for the great apes dataset and simulations (with selection and with mutation rate variation).
 We excluded simulations with $\mu_p \geq \expnumber{1}{-10}$ from the PCA analysis because PC2 was capturing negative correlations caused by strong positive selection --- as seen in \lcref{fig:sims_land_cors}[F].
 }
 \label{fig:pca}
@@ -548,8 +576,8 @@ which have a much lower recent effective population size.
 We found that diversity is negatively correlated with exon density across all species \plcref{fig:annot_cors}[D].
 Contrary to what we observed with recombination rate, 
 the correlation between exon density and diversity was even stronger in most other apes than in humans.
-Species with smaller $N_e$ tend to show weaker correlation between diversity and exon density (see \citet{nam_evidence_2017} for related findings).
-A striking feature of the correlations of between-species divergence and genomic features, shown in \plcref{fig:annot_cors},
+Species with smaller $N_e$ tend to show weaker correlation between diversity and exon density (see \cite{nam_evidence_2017} for related findings).
+A striking feature of the correlations of between-species divergence and genomic features, shown in \lcref{fig:annot_cors},
 is that the correlations get stronger with the amount of phylogenetic time that goes into the comparison (\ie the $T_{MRCA}$),
 in a way that is roughly linear with time. 
 
@@ -570,7 +598,7 @@ is, using bilinearity of covariance,
     \Cov(D(t),X) &= \Cov(\pi(t), X) + t\Cov(R,X) + \Cov(\varepsilon, X) \label{eqcov} . % \\
                 % &= N_e(t) \Cov(\nu, X) + t\Cov(R,X) + \Cov(\varepsilon, X). 
 \end{align}
-Happily, this equation predicts the linear change of the covariance with time that is seen in \lcref{fig:annot_cors}[C] and perhaps \lcref{fig:annot_cors}[D].
+Happily, this equation predicts the linear change of the covariance with time that is seen in \lcref{fig:annot_cors}[C] and perhaps \lcref{fig:annot_cors}[F].
 However, caution is needed because the correlation between diversity and the genomic feature ($\Cov(\pi(t), X)$)
 may be different in different ancestors,
 and indeed the inferred effective population size is greater in older ancestors in the great apes \plcref{fig:sim_demog}.
@@ -599,7 +627,7 @@ the covariances between divergence and recombination rate flip to negative, and 
 Thus, it seems that negative selection is the most important driver of divergence in the middle, whereas
 gBGC strongly affects the tails of the chromosome.
 
-The covariance of diversity and exon density has a less clear pattern (\lcref{fig:annot_cors}[C]),
+The covariance of diversity and exon density has a less clear pattern (\lcref{fig:annot_cors}[F]),
 although it generally gets more strongly negative with time.
 This decrease could be a result of
 a negative covariance between substitution rates and exon density
@@ -646,24 +674,17 @@ Species with low $N_e$ --- for which the estimated species $N_e$ was less than $
 
 \section{Discussion}
 
-A central goal of population genetics is to understand the balance of 
-evolutionary forces at work in shaping the origin and maintenance of variation 
-within and between-species \citep{lewontin_genetic_1974}.
-While the field has been historically data-limited, with the current flood of
-genome sequencing data, we are poised to make progress on such old questions.
-Over the past decades, an important lever in understanding the relative impact
-of genetic drift versus selection in shaping genomic patterns of variation has
-been to examine the relationship between \textit{levels} of diversity and 
-genomic features, such as recombination rate and exon density.
-The overarching observation has been that regions of reduced crossing over
-generally harbor less variation than regions of increased crossing over in
-many but not all species \parencite[\eg][]{begun_levels_1992, corbett-detig_natural_2015}.
-This observation is consistent with a role for linked selection
-shaping patterns of variation in recombining genomes,
+A central goal of population genetics is to understand the balance of evolutionary forces at work in shaping the origin and maintenance of variation within and between-species \citep{lewontin_genetic_1974}.
+While the field has been historically data-limited,
+with the current flood of genome sequencing data, we are poised to make progress on such old questions.
+Over the past decades, an important lever in understanding
+the relative impact of genetic drift versus selection in shaping genomic patterns of variation has been to
+examine the relationship between \textit{levels} of diversity and genomic features, such as recombination rate and exon density.
+The overarching observation has been that regions of reduced crossing over generally harbor less variation than regions of increased crossing over in many but not all species \parencite[\eg][]{begun_levels_1992, corbett-detig_natural_2015}.
+This observation is consistent with a role for linked selection shaping patterns of variation in recombining genomes,
 but  the relative contributions of deleterious and
 beneficial mutations is still largely unknown.
-Indeed, it seems likely that some complex mixture of both processes shapes variation
-in natural populations \parencite{kern_neutral_2018}.
+Indeed, it seems likely that some complex mixture of both processes shapes variation in natural populations \parencite{kern_neutral_2018}.
 
 In this paper,
 we moved beyond genetic diversity within a single species to look at how divergence between closely related species changes with time
@@ -687,7 +708,7 @@ Patterns across multiple species are more likely to be robust to the idiosyncras
 such as demographic history.
 For instance within-species metrics can be confounded by demography:
 demographic events can create spurious troughs of diversity \citep{simonsen_properties_1995} or exacerbate the effects of background selection on diversity \citep{torres_human_2018}.
-However, correlations between landscapes can only be produced by shared ancestral variation or shared heterogeneous process.
+However, correlations between landscapes can only be produced due to shared ancestral variation or a shared heterogeneous process.
 
 
 In the great apes, we found that landscapes of within-species diversity and between-species divergence are 
@@ -695,7 +716,7 @@ highly correlated across the phylogeny.
 Those correlations are often stronger than those that have been historically used as evidence for the effects of selection on genetic variation.
 For example, the correlation between genetic diversity in humans and exon density is $-0.2$, 
 yet the correlation between diversity in humans and diversity in western gorillas is $0.48$.
-This stronger correlation may not be entirely due to shared landscape of selection --- it may also be a result of shared ancestral variation (\ie incomplete lineage sorting), mutation rate variation,
+This stronger correlation may not be entirely due to shared landscape of selection --- it may also be a result of shared ancestral variation (and incomplete lineage sorting), mutation rate variation,
 and/or GC-biased gene conversion.
 To understand how much of the correlation between landscapes can be attributed to ancestral variation,
 we performed extensive simulations of the great apes' evolutionary history,
@@ -717,14 +738,11 @@ In birds,  an excess of divergence near telomeres has been attributed to meiotic
 When the history of the great apes is simulated with a shared heterogeneous mutation map,
 correlations between landscapes do emerge.
 These were as strong as seen in the data when the rates were drawn from a normal distribution
-with a standard deviation of the mutation rate of at least a 7.7\% of the mean mutation rate.
+with a standard deviation of the mutation rate of at least a 7\% of the mean mutation rate.
 However, our mutation map was perfectly shared among was species in our simulations,
 so it is possible that a mutation map which changes over time might move closely to match the data.
-Mutation rate varies along the human genome 
-and \citet{smith_large_2018} estimated the standard deviation of de novo mutation rate in humans at the 1Mb scale to be above 25\% (with respect to the mean).
-However, this prior estimates of variation in de novo mutation rate did not take into account differences in callability along genomes
--- due to the fact that genomic regions vary in how well they can be genotyped with short-read data --
-which can bias inference.
+\citet{smith_large_2018} estimated the standard deviation of de novo mutation rate in humans at the 1Mb scale to be around 25\% of the mean mutation rate.
+However, the lack of congruency in de novo mutations identified in different data sets raises questions about the role of ascertainment biases that need to be addressed in future studies \citep{castellano_impact_2020}.
 Our simulations showed a facet of shared mutational heterogeneity along the genome
 that we do not observe in real data: with variable mutation rate correlations increase over time,
 whereas in the real data they decrease.
@@ -739,34 +757,32 @@ that can be affected by CpG-induced mutation rate variation \plcref{fig:partitio
 Natural selection can also structure genetic variation heterogeneously along the genome.
 In simulations,
 both positive and negative selection are needed for the correlations between landscapes to resemble the data.
-We chose exons to be the targets of selection in our simulations.
-Exons cover about $1\%$ of the human genome, 
-but in reality selection is known to affect non-coding regions as well.
-For example, highly conserved noncoding sequences have long been identified
-and characterized as functional \citep{bejerano_ultraconserved_2004, siepel_evolutionarily_2005, katzman_human_2007}.
-Therefore, we might expect a more realistic model to have the same amount of selection (in terms of total influx of selected mutations),
-but spread out over a somewhat wider region of the genome since we have omitted such sites.
-While that is so, conserved noncoding sequences generally occur close to coding regions
-of the genome.
 By examining the correlations between landscapes (summarized in \lcref{fig:pca}),
-we found that the best fitting simulation is the one with a beneficial mutation rate within exons of $\expnumber{1}{-12}$ and deleterious rate within exons of $\expnumber{1.4}{-8}$.
-Our results largely agree with previous studies which found that positive selection is necessary to explain reduction in genetic diversity surrounding genes in the great apes \citep{nam_extreme_2015, nam_evidence_2017}.
+we found that the best fitting simulation is the one with a beneficial mutation rate within exons of $\expnumber{1}{-12}$ and deleterious rate within exons of $\expnumber{1.2}{-8}$.
+Positive selection seems to be needed to explain one particular feature of the data:
+the separation between correlations involving a low $N_e$ species (\ie correlations are lower if diversity is computed in a species with a low $N_e$ -- as seen in humans, bonobos, western chimps and eastern gorillas; see \lcref{fig:land_cors}).
+Bottlenecks can erase sweep signatures \citep{przeworski_signature_2002, jensen_distinguishing_2005, nielsen_genomic_2005},
+but demography does not affect local variation in mutation rates,
+and it can exacerbate signatures of background selection \citep{torres_human_2018}.
+Thus, if sweeps are causing correlations between landscapes,
+we expect it to be more sensitive to the strong bottleneck in humans than the other processes.
+This conclusion largely agrees with previous studies which found that positive selection is necessary to explain reduction in genetic diversity surrounding genes in the great apes \citep{nam_evidence_2017}.
 
 Another way we might characterize our simulations is 
 through examination of substitution processes.
 In our best fitting simulation, 
 we get a fixation rate of beneficial mutations of around $\expnumber{1}{-9}$ per generation per exon base pair,
-what amounts to around $10\%$ of the fixations within exons (along the human lineage) and
-about one new fixation of a beneficial mutation every 250 generations.
-Total fixation rate is decreased by around $55\%$ relative to the rate in our neutral simulation due to the constant removal of deleterious mutations within exons.
-Indeed, previous studies \citep{boyko_assessing_2008} have estimated that around 10\% of amino acid differences between humans and chimpanzees were caused by positive selection,
-strikingly similar to our best fitting simulation.
-Furthermore, we would expect to see the fixation of around 16 beneficial mutations in the past 4000 generations,
+what amounts to approximately $9\%$ of the fixations within exons (along the human lineage),
+\ie about one new fixation of a beneficial mutation every 250 generations.
+Fixation rate within exons is decreased to around $60\%$ of the rate in our neutral simulation due to the constant removal of deleterious mutations within these regions.
+Indeed, previous studies \citep{boyko_assessing_2008, zhen_greater_2021-1, laval_sporadic_2021} have estimated that between 10\% and 16\% of amino acid differences between humans and chimpanzees were caused by positive selection,
+which is strikingly similar to our best fitting simulation.
+We would expect to see the fixation of around 16 beneficial mutations in the past 4000 generations,
 which is close to the number of hard sweeps genome scans for selections have found in humans over this same time period \citep{schrider_soft_2017, schrider_shic_2016}.
-Our best fitting simulation with selection assumes that $70\%$ of mutations within exons are deleterious,
+Our best fitting simulation with selection assumes that $60\%$ of new mutations within exons are deleterious,
 similar to estimates from the site frequency spectrum \citep{boyko_assessing_2008,kim_inference_2017, huber_determining_2017}.
-Thus while we have not done exhaustive model fitting due to computational constraints, our simulations recapitulate
-major patterns of variation observed in the genome.
+Thus while we have not done exhaustive model fitting due to computational constraints,
+our simulations reproduce estimates from studies which model a different facet of genetic variation (\ie the site frequency spectrum).
 
 Heterogeneous processes that correlate with a genomic feature
 will create differences in rates of substitution along the genome
@@ -794,16 +810,48 @@ although more work is needed to disentangle confounders.
 It is important to contrast this observation,
 which applies mostly to the direct effects of selection,
 to other observations which also include linked effects
-(as discussed in \citet{phung_determining_2016}).
+(as discussed in \cite{phung_determining_2016}).
 
+Although simulations allow for more biological realism,
+we made assumptions to constrain the parameter space explored.
+Our simulations used randomly mating populations of constant size, as inferred in \citet{prado-martinez_great_2013}.
+These population sizes were inferred using neutral model, and so are likely affected by the effects of selection \citep{jensen_distinguishing_2005}.
+Mean levels of diversity and divergence in our neutral simulation match the data,
+but simulations with natural selection differ, at times substantially \plcref{fig:data_sims_summaries}.
+On the other hand,
+our simulations with selection match the data more closely with respect to standard deviation in levels of diversity and divergence along genomes.
+However, inaccuracy of the demographic model should not affect any of our main observations,
+because the effects of demography on levels of variation along genomes are not shared across multiple species.
+
+We chose exons to be the targets of selection in our simulations.
+Exons cover about $1\%$ of the human genome, 
+and in reality selection affects non-coding regions as well.
+However, a substantial portion of this selection affects \emph{cis}-regulatory regions,
+whose density along the genome is well-predicted by coding sequence itself.
+Furthermore, highly conserved noncoding sequences have long been identified
+and characterized as functional \citep{bejerano_ultraconserved_2004, siepel_evolutionarily_2005, katzman_human_2007}.
+In the great apes, non-coding diversity is correlated with recombination rate, pointing to the role of selection \citep{castellano_impact_2020}.
+However, it would be circular to include conserved noncoding elements in our simulations because
+such elements are identified based in part on levels of divergence,
+which themselves depend on ancestral levels of genetic diversity.
+Because conserved noncoding elements generally occur close to coding regions of the genome
+(at the 1Mb scale, the correlation between density of exons and PhastCons elements is around $0.6$),
+we might expect a more realistic model to have the same amount of selection (in terms of total influx of selected mutations),
+but spread out over a somewhat wider region of the genome since we have omitted such sites.
+Even without considering all potential targets of selection,
+patterns of genetic diversity in our simulations match the data well:
+we see a correlation between simulated and observed diversity of $0.45$ for chimps \plcref{fig:data_sims_corrs}, for example.
 
 While it has long been recognized that genetic variation among species might be
-structured similarly due to shared targets of selection, our results demonstrate
-that this signal contains important information about the processes at work that has yet to be utilized fully.
+structured similarly due to shared targets of selection,
+our results demonstrate that these correlations contain important information about the processes at work that has yet to be utilized fully.
 Here we have used large-scale simulations to demonstrate the combination of forces required 
-to patterns shared divergence and diversity as we observe it in nature, however
-there is clearly a need for future analytical work that might describe expected
-correlations across the genome given heterogeneous mutation, recombination,
-and selection. Further, statistical model fitting, based on theory or
-simulation is clearly desirable, although our experience suggests that the latter
-approach would prove computationally expensive. 
+to pattern shared divergence and diversity as we observe it in nature.
+Indeed, our results show that a combination of negative and positive selection,
+GC-biased gene conversion and mutation rate variation all contribute in shaping genetic variation in the great apes.
+Although some processes are not necessarily needed to recapitulate the real data (\eg mutation rate variation),
+positive selection seems to be the only force that can explain most of our observations.
+There is clearly a need for future analytical work that might describe expected correlations across the genome
+given variation in local mutation, recombination, and selection.
+Further, statistical model fitting, based on theory or simulation is clearly desirable,
+although our experience suggests that the latter approach would prove computationally expensive. 

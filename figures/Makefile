@@ -1,6 +1,6 @@
 path_sims = ../../greatapes_sims
 
-figs = chr12-pidxy-landscapes.pdf all-pidxy-rec-ex-landscapes.pdf demog_tubes_greatapes.pdf cor-pidxy-dT_data.pdf cor-pidxy-branchoverlap_data.pdf cor-pidxy-corrneut-nooverlap_data.pdf cor-pidxy-corrneut-overlap_data.pdf corr-pidxy-land-panel_neutral.pdf cor-pidxy-dT_selected-sel-sims.pdf cor-pidxy-dT_selected-mutvar-sims.pdf cor-pidxy-annot_data.pdf partitioned_dxy_landscapes_data.pdf anc-partitioned_dxy_landscapes_data.pdf curr-partitioned-dxydxy-corr_data.pdf cov-pidxy-annot_data.pdf data-and-sims_pca.pdf chr12-landscapes_selected-sel-sims.pdf cor-pidxy-annot-central_data.pdf chr12-pidxy-change-dT.pdf
+figs = chr12-pidxy-landscapes.pdf all-pidxy-rec-ex-landscapes.pdf demog_tubes_greatapes.pdf cor-pidxy-dT_data.pdf cor-pidxy-branchoverlap_data.pdf cor-pidxy-corrneut-nooverlap_data.pdf cor-pidxy-corrneut-overlap_data.pdf corr-pidxy-land-panel_neutral.pdf cor-pidxy-dT_selected-sel-sims.pdf cor-pidxy-dT_selected-mutvar-sims.pdf cor-pidxy-annot_data.pdf partitioned_dxy_landscapes_data.pdf anc-partitioned_dxy_landscapes_data.pdf curr-partitioned-dxydxy-corr_data.pdf cov-pidxy-annot_data.pdf data-and-sims_pca.pdf data-and-sims_pca_5mb.pdf data-and-sims_pca_500kb.pdf chr12-landscapes_selected-sel-sims.pdf cor-pidxy-annot-central_data.pdf chr12-pidxy-change-dT.pdf data-and-sims_summaries.pdf data-and-sims_corrs.pdf
 
 lands = ../../greatapes_sims/output/greatapes-diversity-data/all/figs/all-landscapes_*_win-size_1000000_merged-mask_True_state_all_curr_all_prop-acc_0.4.pdf
 
@@ -60,5 +60,17 @@ all: ${figs}
 ./curr-partitioned-dxydxy-corr_data.pdf: ${path_sims}/output/final_figs/curr-partitioned-dxydxy-corr_data.pdf
 	cp $< $@
 
-./data-and-sims_pca.pdf: ${path_sims}/output/final_figs/pca.pdf
+./data-and-sims_pca.pdf: ${path_sims}/output/final_figs/pca_1e+06.pdf
+	cp $< $@
+
+./data-and-sims_pca_500kb.pdf: ${path_sims}/output/final_figs/pca_5e+05.pdf
+	cp $< $@
+
+./data-and-sims_pca_5mb.pdf: ${path_sims}/output/final_figs/pca_5e+06.pdf
+	cp $< $@
+
+./data-and-sims_summaries.pdf: ${path_sims}/output/final_figs/data_and_sims_summaries.pdf
+	cp $< $@
+
+./data-and-sims_corrs.pdf: ${path_sims}/output/final_figs/corrs_between_data_and_sims.pdf
 	cp $< $@
