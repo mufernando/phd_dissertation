@@ -38,7 +38,7 @@ These trees capture the genetic data perfectly,
 but they are much more scalable (use less space) and
 they organize the data in a way that could be more conducive to extracting relevant evolutionary information.
 
-\section{The current landscape in evolutionary inference}
+\section{The current landscape in inference of evolutionary processes from genetic data}
 
 % What are the major questions in evolutionary genetics?
 Many questions in evolutionary biology are of a historical nature,
@@ -53,7 +53,6 @@ Is it possible to find regions of the genome that were affected by natural selec
 Can we infer the movement of individuals and changes in population sizes over time?
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
 
-
 % What challenges are in the way of answering these questions?
 It has become clear that these questions cannot be investigated independently.
 That is, to find regions of the genome under selection you need to understand the demographic history of populations,
@@ -63,23 +62,40 @@ It is not possible to investigate each process in isolation because
 and (ii) modelling interactions between processes is not trivial.
 
 % What kinds of signatures do evol processes leave on genetic data?
-Inferring demographic processes from genetic data usually entail figuring out how these processes impact the underlying genealogies.
-For example, if a population suddenly goes through a major bottleneck, we expect to see most of the coalescences concentrated during the bottleneck period.
+To understand how it is possible to answer these questions with genetic data,
+it is necessary to map how different evolutionary processes affect genetic variation.
+At each position along a chromosome, there is a tree that describes how some samples are related to each other.
+These trees or genealogies can fully encode the outcomes of evolutionary processes.
+Therefore, it is usually simpler to think about how these processes impact tree shapes.
+The trees, along with mutations, can then be used to understand genetic variation itself.
+
+Demographic processes directly impact the underlying genealogies because of the inverse relationship between population size and coalescence rate(coalescences are the merging of lineages backwards to a most recent common ancestor).
+For example, if a population suddenly goes through a major bottleneck,
+we expect to see most of the coalescences concentrated during the bottleneck period.
 On the other hand, population expansions can lead to trees that have coalescences concentrated in the period before the population expansion.
 The underlying genealogies yield different patterns of genetic variation in the extant population.
 One summary of genetic data that can be used to distinguish between these tree shapes and, in turn, between possible demographies is the site frequency spectrum (SFS).
 The SFS is the distribution of allele frequencies across sites in some sampled genomes.
 (For the sake of simplicity, I will focus on the unfolded SFS, where the frequency of the derived alleles have been measured; derived allele refers to the allele that is new to a population, which can be established by finding the ancestral allele with outgroups).
 A genealogy that has coalescences concetrated at the tips (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency of derived alleles.
-Conversely, a genealogy with coalescences happening earlier on will yield a SFS in which derived alleles are rare.
+Conversely, a genealogy with coalescences happening earlier on will yield a SFS with an excess of low frequency derived alleles.
 
 % Natural selection and the ways it impacts genetic variation
-Natural selection also affect coalescence rates and shapes of genealogies.
-Most notably, when a new beneficial mutation arises in a population it rapidly reaches fixation.
+Natural selection also affects the shapes of genealogies.
+When a new beneficial mutation arises in a population it rapidly reaches fixation.
 This leads to many of the coalescences to occur during the fixation trajectory.
-If we were to sample the population at the end of this processes,
+If we were to sample the population right after fixation,
 the SFS would be skewed towards the high frequencies, similar to the effect of a population bottleneck.
+The impact of negative selection, that is the removal of new mutations which negatively impact fitness, on genealogies is less clear.
+Strongly deleterious mutations are rapidly purged from the population and do not strongly affect the shape of genealogies.
+Weakly deleterious mutations, on the other hand, may change genealogies. %TODO: think about this
+Not only does selection directly impact genealogies, but it also affects how mutations are accumulate over time.
+Positive selection alters the rates of substitutions: regions of the genome that have higher rates of beneficial mutations will have higher rates of substitutions.
+Negative selection can have the opposite effect, that is regions with higher rates of deleterious mutations will have lower substitution rates.
 
+The effects of selection on genetic variation are not limited to the selected sites.
+Selection indirectly affects linked (and potentially neutral) sites due to a lack of recombination.
+Therefore, selection will remove genetic variation near the selected site, and the distance of this effect is determined by the rate of recombination.
 
 
 
