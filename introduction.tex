@@ -6,7 +6,7 @@ This makes Evolutionary biology unlike other fields within Biology in that hypot
 Thus, we are left with the task of putting together what happened in the past based on information we have today.
 To do so we need a sizable amount of data, models and statistical and computational tools.
 
-One way to make inference about past evolutionary processes is by studying genetic variation within and between species.
+One way to make inferences about past evolutionary processes is by studying genetic variation within and between species.
 Evolutionary processes, such as demographic processes, natural selection and mutation, impact the genetic variation in many ways.
 For example, we expect the amount of variation within a species to be proportional to the mutation rate (\ie the higher the mutation rate, the more variation a population will harbor).
 On the other hand, finite populations lose variation every generation due to genetic drift (\ie sampling error), 
@@ -30,12 +30,12 @@ but this approach is not a panacea, as simulations have a high computational cos
 For my dissertation, I have explored how we can incorporate computer simulations to help us understand evolution.
 To this end, we need computational tools that are fast and reproducible (so that other researchers can use them).
 So, in my second chapter, I discuss my contributions to tools that make these simulations run faster and to make them more reproducible.
-Next, I gave my best to answer a long standing biological question: to what extent have humans and other apes been shaped by natural selection?
+Next, I sought to answer a long standing biological question: to what extent have humans and other apes been shaped by natural selection?
 In my third chapter, I use simulations to tackle this question and show that both positive and negative selection are necessary to explain the genetic data obtained from multiple individuals for all great ape species.
 Lastly, I wanted to build a proper statistical method that uses simulations to infer evolutionary processes from genetic data.
-In my fourth chapter, I present a new method for evolutionary inference that uses genealogical trees along chromosomes (instead of tables with samples and mutations).
-These trees capture the genetic data perfectly,
-but they are much more scalable (use less space) and
+In my fourth chapter, I present a new method for evolutionary inference that uses genealogical trees along chromosomes
+(instead of tables with samples and mutations).
+These trees capture the genetic data perfectly, but they are much more scalable (use less space) and
 they organize the data in a way that could be more conducive to extracting relevant evolutionary information.
 
 \section{The current landscape in inference of evolutionary processes from genetic data}
@@ -47,8 +47,8 @@ An avenue for investigating past evolutionary events and processes lies in genet
 As evolutionary processes leave footprints on the genetic composition of populations,
 the possibility arises to invert this relationship,
 that is to use genetic data for the inference of past events.
-Indeed, much of the field of evolutionary genetics is tasked with trying to infer past evolutionary events and processes from genetic data.
-Some of the major questions the field has been interested in are:
+Indeed, much evolutionary genetics is tasked with trying to infer past evolutionary events and processes from genetic data.
+Among the major questions explored in the field are: 
 Is it possible to find regions of the genome that were affected by natural selection?
 Can we infer the movement of individuals and changes in population sizes over time?
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
@@ -64,20 +64,21 @@ and (ii) modelling interactions between processes is not trivial.
 % What kinds of signatures do evol processes leave on genetic data?
 To understand how it is possible to answer these questions with genetic data,
 it is necessary to map how different evolutionary processes affect genetic variation.
-At each position along a chromosome, there is a tree that describes how some samples are related to each other.
+At each position along a chromosome, there is a tree that describes how sampled individuals are related to each other.
 These trees or genealogies can fully encode the outcomes of evolutionary processes.
-Therefore, it is usually simpler to think about how these processes impact tree shapes.
+Therefore, it is usually more intuitive to think about how these processes impact tree shapes.
 The trees, along with mutations, can then be used to understand genetic variation itself.
 
 Demographic processes directly impact the underlying genealogies because of the inverse relationship between population size and coalescence rate(coalescences are the merging of lineages backwards to a most recent common ancestor).
-For example, if a population suddenly goes through a major bottleneck,
-we expect to see most of the coalescences concentrated during the bottleneck period.
-On the other hand, population expansions can lead to trees that have coalescences concentrated in the period before the population expansion.
-The underlying genealogies yield different patterns of genetic variation in the extant population.
+For example, for a population that goes through a bottleneck (\ie a sudden decrease in population size),
+the coalescences are expected to be concentrated during the bottleneck period.
+On the other hand, for population that undergoes a size expansion,
+most of the coalescences will happen in the period preceding the expansion.
+These underlying trees yield different patterns of genetic variation in the extant population.
 One summary of genetic data that can be used to distinguish between these tree shapes and, in turn, between possible demographies is the site frequency spectrum (SFS).
 The SFS is the distribution of allele frequencies across sites in some sampled genomes.
-(For the sake of simplicity, I will focus on the unfolded SFS, where the frequency of the derived alleles have been measured; derived allele refers to the allele that is new to a population, which can be established by finding the ancestral allele with outgroups).
-A genealogy that has coalescences concetrated at the tips (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency of derived alleles.
+(For the sake of simplicity, I will focus on the unfolded SFS, where the frequency of the derived alleles have been measured; derived allele refers to the allele that is new to a population).
+A genealogy that has coalescences concetrated near the present (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency of derived alleles.
 Conversely, a genealogy with coalescences happening earlier on will yield a SFS with an excess of low frequency derived alleles.
 
 % Natural selection and the ways it impacts genetic variation
@@ -86,8 +87,12 @@ When a new beneficial mutation arises in a population it rapidly reaches fixatio
 This leads to many of the coalescences to occur during the fixation trajectory.
 If we were to sample the population right after fixation,
 the SFS would be skewed towards the high frequencies, similar to the effect of a population bottleneck.
-The impact of negative selection, that is the removal of new mutations which negatively impact fitness, on genealogies is less clear.
-Strongly deleterious mutations are rapidly purged from the population and do not strongly affect the shape of genealogies.
+A strongly deleterious mutation, on the other hand, is rapidly purged from the population.
+Therefore, the shape of the underlying tree is not affected (though in a model where many mutations are strongly deleterious we expect to see shorter branches).
+
+% Linked selection
+
+
 Weakly deleterious mutations, on the other hand, may change genealogies. %TODO: think about this
 Not only does selection directly impact genealogies, but it also affects how mutations are accumulate over time.
 Positive selection alters the rates of substitutions: regions of the genome that have higher rates of beneficial mutations will have higher rates of substitutions.
