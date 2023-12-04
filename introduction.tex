@@ -53,13 +53,6 @@ Is it possible to find regions of the genome that were affected by natural selec
 Can we infer the movement of individuals and changes in population sizes over time?
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
 
-% What challenges are in the way of answering these questions?
-It has become clear that these questions cannot be investigated independently.
-That is, to find regions of the genome under selection you need to understand the demographic history of populations,
-and to infer demography from genetic data it is necessary to understand the effects of selections on genomes.
-It is not possible to investigate each process in isolation because
-(i) different processes can impact genetic variation in similar ways,
-and (ii) modelling interactions between processes is not trivial.
 
 % What kinds of signatures do evol processes leave on genetic data?
 To understand how it is possible to answer these questions with genetic data,
@@ -82,31 +75,31 @@ A genealogy that has coalescences concetrated near the present (due to a recent 
 Conversely, a genealogy with coalescences happening earlier on will yield a SFS with an excess of low frequency derived alleles.
 
 % Natural selection and the ways it impacts genetic variation
-Natural selection also affects the shapes of genealogies.
-When a new beneficial mutation arises in a population it rapidly reaches fixation.
+Natural selection can also impact genealogies and genetic variation.
+When a new (sufficiently) beneficial mutation arises in a population it rapidly increases in frequency, ultimately reaching fixation.
 This leads to many of the coalescences to occur during the fixation trajectory.
 If we were to sample the population right after fixation,
 the SFS would be skewed towards the high frequencies, similar to the effect of a population bottleneck.
 A strongly deleterious mutation, on the other hand, is rapidly purged from the population.
-Therefore, the shape of the underlying tree is not affected (though in a model where many mutations are strongly deleterious we expect to see shorter branches).
+Therefore, the shape of the underlying tree is not affected, though the tree will be shorter.
+Both beneficial and deleterious mutations lead to loss of genetic variation at the selected site (either due to fixation or purging),
+but nearby sites are also affected due to linkage.
+Linked mutations are carried along as a beneficial mutation increases in frequency, in a process called selective sweep.
+The further away from the focal site, the more likely it is for recombination to happen, allowing mutations to escape this "sweep".
+A deleterious mutation can also affect linked mutations in a similar way, and this process is called background selection.
+Importantly, most of the models for selection assume strong selection,
+because it is tricky to deal with the interactions between multiple selected mutations in linkage disequilibrium.
 
-% Linked selection
+%
+Although we have a good understanding of how different evolutionary processes impact variation,
+a few issues remain in the way of inversing this relationship to infer these processes from genetic data.
+First, different processes can impact genetic variation in similar ways, which can raise an identifiability problem.
+Second, modelling interactions between processes (and across sites) is challenging.
 
-
-Weakly deleterious mutations, on the other hand, may change genealogies. %TODO: think about this
-Not only does selection directly impact genealogies, but it also affects how mutations are accumulate over time.
-Positive selection alters the rates of substitutions: regions of the genome that have higher rates of beneficial mutations will have higher rates of substitutions.
-Negative selection can have the opposite effect, that is regions with higher rates of deleterious mutations will have lower substitution rates.
-
-The effects of selection on genetic variation are not limited to the selected sites.
-Selection indirectly affects linked (and potentially neutral) sites due to a lack of recombination.
-Therefore, selection will remove genetic variation near the selected site, and the distance of this effect is determined by the rate of recombination.
 
 
 
 % Data is not a limitation anymore
-Genetic data collection has increased exponentially over the past two decades.
-Now, it is possible to sequence whole genomes for thousands of samples across multiple populations with relative ease.
 
 % Computational and simulation advancements
 
