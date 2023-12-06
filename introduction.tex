@@ -13,11 +13,11 @@ On the other hand, finite populations lose variation every generation due to gen
 and the magnitude of this loss is proportional to the population size.
 
 We can write models in form of math equations that describe how some of these evolutionary processes impact genetic variation.
-For example, $\pi$ (a metric of genetic variation) depends on the size of the population ($N$) and the mutation rate ($\mu$), such that $\pi \sim 4N\mu$.
+For example, $\pi$ (a measure of genetic variation) depends on the size of the population ($N$) and the mutation rate ($\mu$), such that $\pi \sim 4N\mu$.
 If we knew the mutation rate, we could rearrange the equation to estimate the size of a population $N = \frac{\pi}{4\mu}$ from genetic data!
 To arrive at this simple equation, we make the assumption that an individual is equally likely to mate with any other individual in the population (\ie panmixia).
 It is easy to see how this may not always hold:
-for example, a tree is much more likely to mate with another that lives close to it (because pollen cannot travel too far).
+for example, a tree is much more likely to mate with its neighbor than a distant tree across the forest (because pollen cannot travel too far).
 
 Adding biological realism to our math equation would prove to be complicated.
 Alternatively, we can more easily simulate this process with a computer:
@@ -53,11 +53,12 @@ Is it possible to find regions of the genome that were affected by natural selec
 Can we infer the movement of individuals and changes in population sizes over time?
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
 
-
+\subsection{The impact of evolutionary processes on genetic variation}
 % What kinds of signatures do evol processes leave on genetic data?
 To understand how it is possible to answer these questions with genetic data,
 it is necessary to map how different evolutionary processes affect genetic variation.
 At each position along a chromosome, there is a tree that describes how sampled individuals are related to each other.
+Due to linkage, neighboring trees are more like each other than distant trees.
 These trees or genealogies can fully encode the outcomes of evolutionary processes.
 Therefore, it is usually more intuitive to think about how these processes impact tree shapes.
 The trees, along with mutations, can then be used to understand genetic variation itself.
@@ -90,15 +91,23 @@ A deleterious mutation can also affect linked mutations in a similar way, and th
 Importantly, most of the models for selection assume strong selection,
 because it is tricky to deal with the interactions between multiple selected mutations in linkage disequilibrium.
 
+\subsection{Challenges in evolutionary inference}
 %
 Although we have a good understanding of how different evolutionary processes impact variation,
 a few issues remain in the way of inversing this relationship to infer these processes from genetic data.
-First, different processes can impact genetic variation in similar ways, which can raise an identifiability problem.
-Second, modelling interactions between processes (and across sites) is challenging.
+First, different processes can impact genetic variation in similar ways, making it difficult to determine the specific processes that are consistent with data.
+Second, writing mathematical models that account for interactions between processes is complicated.
+Third, many models do not properly incorporate linkage information and treat whole genome data as unlinked single loci.
 
+Summaries of genetic data may not contain enough information to distinguish between evolutionary scenarios.
+For example, I described how both a bottleneck and a selective sweep distort the site-frequency spectrum in similar ways,
+by skewing it towards high frequency derived alleles.
 
+Writing mathematical models that account for interactions between processes is not trivial.
 
+Taking full advantage of linkage information is complicated, and many current methods treat whole-genome data as a collection of unlinked loci.
 
+\subsection{The promise of simulation-based evolutionary inference}
 % Data is not a limitation anymore
 
 % Computational and simulation advancements
