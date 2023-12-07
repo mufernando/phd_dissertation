@@ -83,13 +83,14 @@ If we were to sample the population right after fixation,
 the SFS would be skewed towards the high frequencies, similar to the effect of a population bottleneck.
 A strongly deleterious mutation, on the other hand, is rapidly purged from the population.
 Therefore, the shape of the underlying tree is not affected, though the tree will be shorter.
+
 Both beneficial and deleterious mutations lead to loss of genetic variation at the selected site (either due to fixation or purging),
 but nearby sites are also affected due to linkage.
 Linked mutations are carried along as a beneficial mutation increases in frequency, in a process called selective sweep.
 The further away from the focal site, the more likely it is for recombination to happen, allowing mutations to escape this "sweep".
 A deleterious mutation can also affect linked mutations in a similar way, and this process is called background selection.
 Importantly, most of the models for selection assume strong selection,
-because it is tricky to deal with the interactions between multiple selected mutations in linkage disequilibrium.
+because it is complicated to deal with the interactions between multiple selected mutations in linkage disequilibrium.
 
 \subsection{Challenges in evolutionary inference}
 %
@@ -100,8 +101,15 @@ Second, writing mathematical models that account for interactions between proces
 Third, many models do not properly incorporate linkage information and treat whole genome data as unlinked single loci.
 
 Summaries of genetic data may not contain enough information to distinguish between evolutionary scenarios.
-For example, I described how both a bottleneck and a selective sweep distort the site-frequency spectrum in similar ways,
-by skewing it towards high frequency derived alleles.
+For example, both positive and negative selection remove variation surrounding the selected site.
+Because the width of the effects of sweeps and background selection depends on the recombination rate,
+both these models predict a relationship between recombination rate and genetic diversity.
+Indeed, in many species of plants and animals it has been observed that regions of high recombination harbor more genetic variation.
+Disentangling the relative contributions of sweeps and background selection to this pattern, however, is complicated.
+One alternative lies in going beyond single species metrics of variation, and to instead compare multiple species.
+Selection also directly impacts divergence between species: whereas positive selection increases fixation rates, 
+negative selection decreases the rate of substitutions.
+It may also be possible to disentangle sweeps and background selection by aggregating multiple different measures of variation. % cite schrider
 
 Writing mathematical models that account for interactions between processes is not trivial.
 
