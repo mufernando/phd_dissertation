@@ -1,6 +1,7 @@
 \chapter{Introduction}
 
 \section{Decoding evolution: a lay-friendly prelude}
+
 Evolution can occur over incredibly large spatial scales over the course of thousands to millions of years.
 This makes Evolutionary biology unlike other fields within Biology in that hypotheses can not always be subject to experimentation.
 Thus, we are left with the task of putting together what happened in the past based on information we have today.
@@ -42,7 +43,7 @@ they organize the data in a way that could be more conducive to extracting relev
 
 % What are the major questions in evolutionary genetics?
 Many questions in evolutionary biology are of a historical nature,
-because evolution is restrict in space and time and it cannot be replicated.
+because evolution is restrict in space and time and it cannot be replicated \citep{losos_evolutionary_2009, cleland_methodological_2002}.
 An avenue for investigating past evolutionary events and processes lies in genetic data.
 As evolutionary processes leave footprints on the genetic composition of populations,
 the possibility arises to invert this relationship,
@@ -54,6 +55,7 @@ Can we infer the movement of individuals and changes in population sizes over ti
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
 
 \subsection{The impact of evolutionary processes on genetic variation}
+
 % What kinds of signatures do evol processes leave on genetic data?
 To understand how it is possible to answer these questions with genetic data,
 it is necessary to map how different evolutionary processes affect genetic variation.
@@ -63,7 +65,7 @@ These trees or genealogies can fully encode the outcomes of evolutionary process
 Therefore, it is usually more intuitive to think about how these processes impact tree shapes.
 The trees, along with mutations, can then be used to understand genetic variation itself.
 
-Demographic processes directly impact the underlying genealogies because of the inverse relationship between population size and coalescence rate(coalescences are the merging of lineages backwards to a most recent common ancestor).
+Demographic processes directly impact the underlying genealogies because of the inverse relationship between population size and coalescence rate(coalescences are the merging of lineages backwards to a most recent common ancestor) \citep{wakely_coalescent_2016}.
 For example, for a population that goes through a bottleneck (\ie a sudden decrease in population size),
 the coalescences are expected to be concentrated during the bottleneck period.
 On the other hand, for population that undergoes a size expansion,
@@ -80,40 +82,56 @@ Natural selection can also impact genealogies and genetic variation.
 When a new (sufficiently) beneficial mutation arises in a population it rapidly increases in frequency, ultimately reaching fixation.
 This leads to many of the coalescences to occur during the fixation trajectory.
 If we were to sample the population right after fixation,
-the SFS would be skewed towards the high frequencies, similar to the effect of a population bottleneck.
+the SFS would be skewed towards the high frequencies \citep{kim_allele_2006}, similar to the effect of a population bottleneck.
 A strongly deleterious mutation, on the other hand, is rapidly purged from the population.
-Therefore, the shape of the underlying tree is not affected, though the tree will be shorter.
+Therefore, the shape of the underlying tree is not affected, though the tree will be shorter \citep{williamson_genealogy_2002, barton_effect_2004}.
 
 Both beneficial and deleterious mutations lead to loss of genetic variation at the selected site (either due to fixation or purging),
 but nearby sites are also affected due to linkage.
-Linked mutations are carried along as a beneficial mutation increases in frequency, in a process called selective sweep.
+Linked mutations are carried along as a beneficial mutation increases in frequency, in a process called selective sweep \citep{kaplan_hitchhiking_1989, maynard_smith_hitch-hiking_1974, coop_patterns_2012}.
 The further away from the focal site, the more likely it is for recombination to happen, allowing mutations to escape this "sweep".
-A deleterious mutation can also affect linked mutations in a similar way, and this process is called background selection.
+A deleterious mutation can also affect linked mutations in a similar way, and this process is called background selection \citep{charlesworth_effect_1993}.
 Importantly, most of the models for selection assume strong selection,
-because it is complicated to deal with the interactions between multiple selected mutations in linkage disequilibrium.
+because it is complicated to deal with the interactions between multiple selected mutations in linkage disequilibrium \citep{kim_joint_2000}.
 
 \subsection{Challenges in evolutionary inference}
-%
+
 Although we have a good understanding of how different evolutionary processes impact variation,
 a few issues remain in the way of inversing this relationship to infer these processes from genetic data.
 First, different processes can impact genetic variation in similar ways, making it difficult to determine the specific processes that are consistent with data.
-Second, writing mathematical models that account for interactions between processes is complicated.
+Second, there is a need for modeling of interactions between processes.
 Third, many models do not properly incorporate linkage information and treat whole genome data as unlinked single loci.
 
 Summaries of genetic data may not contain enough information to distinguish between evolutionary scenarios.
 For example, both positive and negative selection remove variation surrounding the selected site.
 Because the width of the effects of sweeps and background selection depends on the recombination rate,
-both these models predict a relationship between recombination rate and genetic diversity.
-Indeed, in many species of plants and animals it has been observed that regions of high recombination harbor more genetic variation.
-Disentangling the relative contributions of sweeps and background selection to this pattern, however, is complicated.
+both these models predict relationships between (i) recombination rate and genetic diversity and (ii) density of functional sites and genetic diversity.
+Indeed, in many species of plants and animals it has been observed that regions of high recombination harbor more genetic variation \citep{corbett-detig_natural_2015}.
+Disentangling the relative contributions of sweeps and background selection to these patterns, however, is complicated \citep{leffler_revisiting_2012, andolfatto_adaptive_2001}.
 One alternative lies in going beyond single species metrics of variation, and to instead compare multiple species.
 Selection also directly impacts divergence between species: whereas positive selection increases fixation rates, 
-negative selection decreases the rate of substitutions.
-It may also be possible to disentangle sweeps and background selection by aggregating multiple different measures of variation. % cite schrider
+negative selection decreases the rate of substitutions \citep{andolfatto_hitchhiking_2007,macpherson_genomewide_2007,cai_pervasive_2009} .
+It may also be possible to disentangle sweeps and background selection by aggregating multiple different measures of variation \citep{schrider_background_2020}. % cite schrider
 
-Writing mathematical models that account for interactions between processes is not trivial.
+Individually dissecting and modelling the effects of different processes on genetic variation is not enough.
+In the early days of evolutionary genetics, it was possible to survey just a few genetic markers, usually microsatellites.
+These markers are short tandem repeats (1-6bp) that are abundant in the genomes of many taxa.
+Microsatellites have a high mutation rate and are thought to be mostly neutral \citep{field_long_1997}.
+This allowed researchers to use these markers for understanding demographic processes almost independently of other processes, such as natural selection.
+There have been incredible advancements in our ability to obtain whole-genome data,
+and now it is feasible to sequence thousands of individuals for multiple species at once.
+More data opens up the opportunities to investigate more complex questions (\ie beyond the traditional studies of population structure),
+such as understanding constraint along genomes, recombination rate variation, among others.
+However, with whole-genome data the assumptions of neutrality, for example, are much less likely to hold.
+So there is a need for models that account for complex interactions between processes, which is not trivial to do.
+One interesting (and perhaps inintuitive) way that processes can interact is that demographic processes can exacerbate the effects of background selection \citep{torres_human_2018, torres_temporal_2020}.
+Inferences of background selection that do not take into account demography can lead to biased estimates of the rate of deleterious mutations and their fitness effects.
+Similarly, there is a rich literature describing how the effects of both positive and negative selection can bias demographic inferences \citep{schrider_effects_2016, ewing_consequences_2016, johri_impact_2021}.
 
-Taking full advantage of linkage information is complicated, and many current methods treat whole-genome data as a collection of unlinked loci.
+Taking full advantage of linkage information is complicated,
+and many current methods treat whole-genome data as a collection of unlinked loci.
+Many demographic inference methods based on allele frequency data (\ie the SFS) do not make use of information contained in patterns of linkage between sites.
+More recently, methods have started to incorporate patterns of haplotype diversity for inference by modeling the distribution of regions of identity by descent (IBD).
 
 \subsection{The promise of simulation-based evolutionary inference}
 % Data is not a limitation anymore
