@@ -130,8 +130,11 @@ Similarly, there is a rich literature describing how the effects of both positiv
 
 Taking full advantage of linkage information is complicated,
 and many current methods treat whole-genome data as a collection of unlinked loci.
-Many demographic inference methods based on allele frequency data (\ie the SFS) do not make use of information contained in patterns of linkage between sites.
-More recently, methods have started to incorporate patterns of haplotype diversity for inference by modeling the distribution of regions of identity by descent (IBD).
+Many inference methods based on allele frequency data (\ie the SFS) do not make use of information contained in patterns of linkage between sites.
+The two main avenues for incorporating linkage information have been the sequentially Markovian coalescent (SMC) and models of haplotype diversity.
+The SMC is a model which approximates the coalescent with recombination by disregarding long-range correlations between genealogies.
+Summaries of haplotype diversity can be leveraged for inference; for example, it is possible to fit the distribution of regions of identity by descent (IBD).
+Both approaches have been widely used for inferences of demographic events and selection.
 
 \subsection{The promise of simulation-based evolutionary inference}
 % Data is not a limitation anymore
