@@ -563,7 +563,7 @@ All rights reserved.
       \hangindent=\@cvhangindent
       \interlinepenalty=\@M
     }
-    \cvitem{PROFESSIONAL EXPERIENCE}{\@experience} \vskip .5\baselineskip
+%    \cvitem{PROFESSIONAL EXPERIENCE}{\@experience} \vskip .5\baselineskip
     \cvitem{GRANTS, AWARDS AND HONORS}{\@awards} \vskip .5\baselineskip
     \cvitem{PUBLICATIONS}{\@publications} \vskip .5\baselineskip
     \par

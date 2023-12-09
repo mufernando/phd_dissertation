@@ -5,12 +5,15 @@ LATEX = pdflatex
 
 BIBER := $(shell if $$(command -v Biber); then echo "Biber"; else echo "biber"; fi)
 
-all: $(MAIN).pdf findref chapter_greatapes.tex
+all: $(MAIN).pdf findref chapter_greatapes.tex chapter_tsnn.tex
 
 chapter_greatapes.tex:
 	cp ../greatapes-paper/body.tex $@
 	cp ../greatapes-paper/supp.tex ga_appendix.tex
 	cp -r ../greatapes-paper/figures .
+
+chapter_tsnn.tex:
+	cp ../tsnn-paper/body.tex $@
 
 $(MAIN).pdf: *.tex $(REF).bib chapter_greatapes.tex
 	$(LATEX) $(LATEXFLAGS) $(MAIN).tex
