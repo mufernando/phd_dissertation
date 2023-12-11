@@ -1,0 +1,64 @@
+\section{Introduction}
+
+% Genetic data carries information about past evolutionary events
+% Kinds of things that can be inferred from genetic data
+% With the increase in population genomic data, there is demand for powerful computational tools that can use the big data
+Processes like mutation, recombination, population size changes and selection leave footprints on genetic variation.
+Inferring past, unobserved evolutionary events from genetic variation data has been a major goal of population genetics.
+With the dramatic increase in our ability to generate whole-genome data,
+there is a need for more efficient inference methods that can scale well to over tens of thousands of individuals.
+
+% How has inference been done traditionally?
+% Thinking about how processes impact trees, then translating that into summary statistics that can be computed from genetic data.
+% These stats do lose some information, however.
+Historically, evolutionary inference has relied on population genetic summary statistics.
+Evolutionary processes impact the underlying genealogies, that is, the trees that describe the relationships between samples of a population.
+For example, recent contractions in population sizes will lead to trees which have shorter branches near the tips (due to an increase in the rate of coalescence caused by the contraction).
+Although the trees are unknown, it is possible to describe how changes in the shape of genealogies will affect genetic variation.
+The site frequency spectrum,
+which describes the distrubution of allele frequencies across sites in the genome,
+is a statistic that has been succesfully used to infer demographic histories from natural populations.
+In the example of a recent population size reduction,
+we would expect an excess of derived alleles with intermediate and high frequencies,
+because most of the coalescences will have occured in the recent past leading to big internal branches where most of the mutations would fall.
+
+
+% Inference can be done in by computing likelihoods, but these are tricky, specially for some summary stats.
+% One can do inference on multiple stats at once using simulation-based inference.
+An issue with using summary statistics is that these cannot capture all aspects of variation in genetic data that are informative of the underlying processes.
+Some studies have circumvented this by using multiple summary statistics either in a composite likelihood framework or with likelihood-free methods.
+Writing and computing likelihoods in complex evolutionary scenarios can be challenging.
+Likelihood-free methods (\eg ABC or machine learning) have gained some popularity in population genetics,
+followed by advances in evolutionary genetics simulation software that are now used to generate labeled training data.
+%Some examples of applications: Sheehan PLoS CompBio, SHIC, Pavlidis, Michael DiGiorgio, etc. 
+
+% Traditional likelihood-free methods have been using genotype matrices or summary stats matrices for inference.
+% CNNs on these matrices do well, but there is a problem with scaling (wrt to sampling and genome size).
+Many of the likelihood-free methods model how evolutionary processes impact summary statistics along chromosomes (or windows) or raw genotype matrices.
+CNNs are then applied on matrices of samples over loci (or summary statistics over loci).
+When they encounter large chromosomes, these have to be split into chunks for computational tractability;
+that is, when the number of loci grows it becomes computationally infeasible to apply convolutions over these large matrices.
+In the case of summary statistics, it is possible to compute them over larger windows to capture variation along full chromosomes,
+but this comes at the cost of losing granularity and some evolutionary signals can be quite localized.
+
+% An alternative data structure, the whole genome genealogies, can be leveraged for evol inference.
+% This structure is way more compact and the data is restructured in such a way that can facilitate learning.
+An alternative data structure, whole-genome genealogies, can be leveraged for evolutionary inference.
+Genotype matrices are redundant due to shared ancestry, that is related samples will share the same alleles at many of the variant sites.
+Trees, which describe the relationships between samples from a population, provide a more efficient way of encoding genetic data.
+In recombining genomes, there is not a single tree, but rather a collection of trees (which are autocorrelated) along chromosomes.
+Recent work has made it possible to infer whole-genome genealogies for thousands of individuals.
+
+Benefits of these tree sequences go beyong computational efficiency and scallability, however.
+Trees can perfectly encode evolutionary processes and event and can bring us closer to the processes that we are interested in inferring.
+As briefly mentioned above, much of evolutionary genetics inference starts from understanding how a particular process impacts the underlying genealogies.
+More than that, trees bring a time dimension which can be helpful in inferring events localized in time (\eg migration pulses, past selective sweeps, etc.)
+
+Here, we present a new method that uses these whole-genome genealogies for evolutionary inference.
+Our main goal is to develop a architecture that can efficiently 
+
+% Here, we aim to develop an architecture that uses these whole genome genealogies for inference.
+
+\section{Methods} \label{sec:methods}
+\section{Results}
+\section{Discussion}
