@@ -371,14 +371,20 @@ of this document.}
   \vfill
   by \\*[\baselineskip]
   \@upperauthor\\
-  \vfil
+  \vfill
   \ifdraft\@disclaimer\\\fi\vfill
-   A \@upperpapertype \\*[\baselineskip]
-   Presented to the  \@narrowdepartment \\*
-   and the Division of Graduate Studies of the University of Oregon \\*
-   in partial fulfillment of the requirements \\*
-   for the degree of \\*
-   \@degree \\*[\baselineskip]
+   A \@papertype\ \if@approved accepted and approved \else presented \fi in partial fulfillment \\
+   of the requirements for the degree of \\*[\baselineskip]
+   \@degree \\*
+   in \@narrowdepartment \\
+   \singlespacing
+   \vfill
+   Dissertation Committee: \\
+   \@chair, Chair \\
+   \@committee\ \\
+   \vfill
+   \singlespacing
+   University of Oregon \\
    \@degreemonth ~\thedegreeyear\\
    \end{center}
 }
