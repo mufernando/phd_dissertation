@@ -8,7 +8,7 @@ Thus, we are left with the task of putting together what happened in the past ba
 To do so we need a sizable amount of data, models and statistical and computational tools.
 
 One way to make inferences about past evolutionary processes is by studying genetic variation within and between species.
-Evolutionary processes, such as demographic processes, natural selection and mutation, impact the genetic variation in many ways.
+Evolutionary processes, such as demographic processes, natural selection and mutation, impact genetic variation in many ways.
 For example, we expect the amount of variation within a species to be proportional to the mutation rate (\ie the higher the mutation rate, the more variation a population will harbor).
 On the other hand, finite populations lose variation every generation due to genetic drift (\ie sampling error), 
 and the magnitude of this loss is proportional to the population size.
@@ -99,7 +99,7 @@ because it is complicated to deal with the interactions between multiple selecte
 Although we have a good understanding of how different evolutionary processes impact variation,
 a few issues remain in the way of inversing this relationship to infer these processes from genetic data.
 First, different processes can impact genetic variation in similar ways, making it difficult to determine the specific processes that are consistent with data.
-Second, there is a need for modeling of interactions between processes.
+Second, there is a growing need for modeling interactions between processes.
 Third, many models do not properly incorporate linkage information and treat whole genome data as unlinked single loci.
 
 Summaries of genetic data may not contain enough information to distinguish between evolutionary scenarios.
@@ -126,26 +126,48 @@ However, with whole-genome data the assumptions of neutrality, for example, are 
 So there is a need for models that account for complex interactions between processes, which is not trivial to do.
 One interesting (and perhaps inintuitive) way that processes can interact is that demographic processes can exacerbate the effects of background selection \citep{torres_human_2018, torres_temporal_2020}.
 Inferences of background selection that do not take into account demography can lead to biased estimates of the rate of deleterious mutations and their fitness effects.
-Similarly, there is a rich literature describing how the effects of both positive and negative selection can bias demographic inferences \citep{schrider_effects_2016, ewing_consequences_2016, johri_impact_2021}.
+Conversely, both positive and negative selection can bias demographic inferences in many ways \citep{schrider_effects_2016, ewing_consequences_2016, johri_impact_2021}.
 
 Taking full advantage of linkage information is complicated,
 and many current methods treat whole-genome data as a collection of unlinked loci.
 Many inference methods based on allele frequency data (\ie the SFS) do not make use of information contained in patterns of linkage between sites.
-The two main avenues for incorporating linkage information have been the sequentially Markovian coalescent (SMC) and models of haplotype diversity.
+The two main avenues for incorporating linkage information have been the sequentially Markovian coalescent (SMC) and models of haplotype diversity \citep{schraiber_methods_2015}.
 The SMC is a model which approximates the coalescent with recombination by disregarding long-range correlations between genealogies.
+
 Summaries of haplotype diversity can be leveraged for inference; for example, it is possible to fit the distribution of regions of identity by descent (IBD).
 Both approaches have been widely used for inferences of demographic events and selection.
 
 \subsection{The promise of simulation-based evolutionary inference}
+
+
 % Data is not a limitation anymore
 
 % Computational and simulation advancements
 
 % This makes simulation-based inference attractive to solve big problems in evo gen. What is simulation-based inference and how can it be applied to evogen?
 
+\subsection{Outline of this dissertation}
+
+My overarching goal with this dissertation has been to push the boundaries of simulation-based inference in evolutionary genetics.
+Although I do not expect simulation-based inference to solve all the challenges in evolutionary inference,
+simulations hold promise in helping us model interactions between processes and in allowing us to explore the utility of metrics for which there is no theory yet.
+
 % To make simulation-based inference possible, we need to maintain and develop scalable, tested and documented tools in pop gen (Chapter 1)
+An intermediate step to enable robust simulation-based inference is to develop and maintain scalable and reproducible tools for evolutionary simulations.
+In Chapter 1, I present two of my contributions to the \tskit ecosystem of evolutionary simulation tools.
+A drawback of simulations is the computational cost associated with them.
+So we worked out a way to parallelize multi-species simulations (either forward or backward-in-time).
+This allows for faster and less computationally intensive simulations, 
+which helps enable inference from multi-species genomic datasets.
+Another challenge with evolutionary simulations has been reproducibility and compatibility (across tools).
+As part of the \stdpopsim consortium, we have been standardizing evolutionary models and simulations.
+Using this new resource, I explore how the power to detect selective sweeps vary along chromosomes in humans.
+This illustrates how our tools enable the study of interactions between processes (in this case, recombination rate variation, background selection and selective sweeps).
+We found that the power to detect sweeps varies substantially along chromosomes, even more than it varies across human populations (which have drastically different demographic histories).
+
 
 % In chapter 2, we present a large scale simulation study investigating the role of positive and negative selection in shaping genetic variation.
+Simulations can help us understand 
 
 % In chapter 3, we develop a supervised machine learning method to infer evol params from data, exploring new facet of genetic variation.
 
