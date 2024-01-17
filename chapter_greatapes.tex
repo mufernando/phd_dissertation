@@ -8,7 +8,7 @@ Two major open questions are: how does the influence of selection compare to oth
 And, to what degree is genetic variation influenced by beneficial versus deleterious mutations?
 
 Genetic variation can be measured within a species or between species with two related metrics: within-species genetic diversity and between-species genetic divergence.
-Both can be estimated with genetic data by computing the per site average number of differences between pairs of samples within a species or between two species.
+Both can be estimated with genetic data by computing the per site average number of differences between pairs of samples within a species or between two species,
 and these are estimates of the mean time to coalescence.
 (Note that we do not discuss \emph{relative divergence},
 which is often measured using $F_{ST}$.)
@@ -113,7 +113,7 @@ To understand processes driving these correlations, we employ highly realistic, 
 since analytical predictions are not available.
 We use the great apes as a system to investigate correlated patterns of genetic variation because
 there is high quality population genomic data for all species \parencite{prado-martinez_great_2013},
-the clade is about 12 million years old or $60 N_e$ generations (but there have not been many chromosomal arrangements \parencite{jauch_reconstruction_1992}),
+the clade is about 12 million years old or $60 N_e$ generations (but there have not been many chromosomal arrangements \cite{jauch_reconstruction_1992}),
 and lastly the landscapes of gene density, recombination rate and mutation rate are roughly conserved \parencite{kronenberg_high-resolution_2018,stevison_time_2016}.
 Our study demonstrates that correlated landscapes can be useful in distinguishing between modes of selection and the balance of direct and linked selection shaping genomic variation.
 
@@ -180,7 +180,7 @@ By default, we added neutral mutations to the simulated genealogies with \msprim
 (of neutral plus non-neutral mutations, if any) was constant along the genome.
 In addition, to simulate local variation in mutation rates along the chromosome, 
 we selected three simulated genealogies (the fully neutral simulation, one with deleterious mutations and one with both beneficial and deleterious mutations)
-to add neutral mutations in a way that resulted in varying levels of neural mutation rate variation along the chromosome.
+to add neutral mutations in a way that resulted in varying levels of neutral mutation rate variation along the chromosome.
 To do this, we built mutation rate maps by sampling mutation rates for each 1Mb window independently from a normal distribution with mean $\expnumber{2}{-8}$
 and standard deviation chosen from $\sigma / \expnumber{2}{-8} = \{ 0.005, 0.007, 0.011, 0.016, 0.023, 0.033,\allowbreak 0.048, 0.070. 0.103, 0.150 \}$.
 In simulations with non-neutral mutations, we subtracted the non-neutral mutation rate from the respective window mutation rate for the intervals that intersected with exons.
@@ -288,7 +288,7 @@ A) Landscapes of nucleotide diversity ($\pi$) and divergence ($d_{XY}$) in 1Mb w
 Lines are colored by species on the top plot and by the most common recent ancestor (MRCA) on the bottom.
 Genomic windows with less than 40\% of callable sites were masked.
 Only a subset of the species are displayed for clarity.
-B) Recombination rate estimates from humans (deCODE map; \cite{kong_fine-scale_2010}).
+B) Recombination rate estimates from humans (deCODE map; \cite{kong_high-resolution_2002}).
 C) Exon density along chromosome 12, computed as the percentage of callable nucleotides in a window that fall within an exon.
 }
 \label{fig:chr12_landscapes}
@@ -402,7 +402,7 @@ but when we look at multiple species at once it becomes clear that the mean corr
 A prominent feature of the landscapes of divergence in the great apes 
 is the faster accumulation of divergence in the ends of the chromosomes \plcref{fig:chr12_landscapes}.
 This feature was not present in any of our simulations, so we sought to understand its possible causes.
-Double strand breaks are more common at the ends of chromosomes \citep{kong_high-resolution_2002}, and
+Double strand breaks are more common at the ends of chromosomes \citep{kong_high-resolution_2002, kong_fine-scale_2010}, and
 these can be repaired either by crossover or gene conversion events.
 GC-biased gene conversion (gBGC), the process whereby weak alleles (A and T) are replaced by strong alleles (G and C) in the repair of double-stranded breaks in heterozygotes,
 mimics positive selection -- in that it increases the probability of fixation of G and C alleles \citep[e.g.,][]{galtier_gc-biased_2009}.
@@ -442,7 +442,7 @@ It can be difficult to model natural selection in a realistic manner because we 
 Nevertheless, exons are expected to have higher density of functional mutations than other places in the genome.
 Thus, we ran simulations in which beneficial and deleterious mutations can happen only within exons.
 Using human annotations, we simulated the great apes' history assuming a common recombination map and exon locations.
-See the landscapes from the simulations in \lcref{fig:sims_land_cors}.
+See the landscapes resulting from these simulations in \lcref{fig:sel_lands}.
 
 We found that negative selection can slightly increase correlations between landscapes \plcref{fig:sims_land_cors}[A-C].
 If $30\%$ of all mutations within exons were strongly deleterious (mean selection coefficient $\bar{s} = -0.03$),
