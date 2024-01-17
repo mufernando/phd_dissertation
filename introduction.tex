@@ -30,7 +30,7 @@ but this approach is not a panacea, as simulations have a high computational cos
 
 For my dissertation, I have explored how we can incorporate computer simulations to help us understand evolution.
 To this end, we need computational tools that are fast and reproducible (so that other researchers can use them).
-So, in my second chapter, I discuss my contributions to tools that make these simulations run faster and to make them more reproducible.
+So, in my second chapter, I discuss my contributions to tools that make these simulations run faster and more reproducible.
 Next, I sought to answer a long standing biological question: to what extent have humans and other apes been shaped by natural selection?
 In my third chapter, I use simulations to tackle this question and show that both positive and negative selection are necessary to explain the genetic data obtained from multiple individuals for all great ape species.
 Lastly, I wanted to build a proper statistical method that uses simulations to infer evolutionary processes from genetic data.
@@ -47,10 +47,10 @@ because evolution is restrict in space and time and it cannot be replicated \cit
 An avenue for investigating past evolutionary events and processes lies in genetic data.
 As evolutionary processes leave footprints on the genetic composition of populations,
 the possibility arises to invert this relationship,
-that is to use genetic data for the inference of past events.
-Indeed, much evolutionary genetics is tasked with trying to infer past evolutionary events and processes from genetic data.
+that is to use genetic data to make inferences about past events.
+Indeed, much of evolutionary genetics is tasked with trying to infer past evolutionary events and processes from genetic data.
 Among the major questions explored in the field are: 
-Is it possible to find regions of the genome that were affected by natural selection?
+Is it possible to find regions of the genome that are constrained by natural selection (and thus may be of functional importance)?
 Can we infer the movement of individuals and changes in population sizes over time?
 What are the relative contributions of different evolutionary processes, such as demography and selection, in shaping patterns of genetic variation? 
 
@@ -71,8 +71,9 @@ the coalescences are expected to be concentrated during the bottleneck period.
 On the other hand, for population that undergoes a size expansion,
 most of the coalescences will happen in the period preceding the expansion.
 These underlying trees yield different patterns of genetic variation in the extant population.
-One summary of genetic data that can be used to distinguish between these tree shapes and, in turn, between possible demographies is the site frequency spectrum (SFS).
-The SFS is the distribution of allele frequencies across sites in some sampled genomes.
+One summary of genetic data that can be used to distinguish between these tree shapes and,
+in turn, between possible demographies is the site frequency spectrum (SFS).
+The SFS is the distribution of allele frequencies across sites in a sampled set of genomes.
 (For the sake of simplicity, I will focus on the unfolded SFS, where the frequency of the derived alleles have been measured; derived allele refers to the allele that is new to a population).
 A genealogy that has coalescences concetrated near the present (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency of derived alleles.
 Conversely, a genealogy with coalescences happening earlier on will yield a SFS with an excess of low frequency derived alleles.
@@ -105,13 +106,13 @@ Third, many models do not properly incorporate linkage information and treat who
 Summaries of genetic data may not contain enough information to distinguish between evolutionary scenarios.
 For example, both positive and negative selection remove variation surrounding the selected site.
 Because the width of the effects of sweeps and background selection depends on the recombination rate,
-both these models predict relationships between (i) recombination rate and genetic diversity and (ii) density of functional sites and genetic diversity.
+both these models predict relationships between (i) recombination rate and genetic diversity and (ii) density of functional sites and genetic diversity \citep{charlesworth_effect_1993, kaplan_hitchhiking_1989, smith_hitch-hiking_1974}.
 Indeed, in many species of plants and animals it has been observed that regions of high recombination harbor more genetic variation \citep{corbett-detig_natural_2015}.
 Disentangling the relative contributions of sweeps and background selection to these patterns, however, is complicated \citep{leffler_revisiting_2012, andolfatto_adaptive_2001}.
 One alternative lies in going beyond single species metrics of variation, and to instead compare multiple species.
 Selection also directly impacts divergence between species: whereas positive selection increases fixation rates, 
 negative selection decreases the rate of substitutions \citep{andolfatto_hitchhiking_2007,macpherson_genomewide_2007,cai_pervasive_2009} .
-It may also be possible to disentangle sweeps and background selection by aggregating multiple different measures of variation \citep{schrider_background_2020}. % cite schrider
+It may also be possible to disentangle sweeps and background selection by aggregating multiple different measures of variation \citep{schrider_background_2020}.
 
 Individually dissecting and modelling the effects of different processes on genetic variation is not enough.
 In the early days of evolutionary genetics, it was possible to survey just a few genetic markers, usually microsatellites.
@@ -130,18 +131,39 @@ Conversely, both positive and negative selection can bias demographic inferences
 
 Taking full advantage of linkage information is complicated,
 and many current methods treat whole-genome data as a collection of unlinked loci.
-Many inference methods based on allele frequency data (\ie the SFS) do not make use of information contained in patterns of linkage between sites.
-The two main avenues for incorporating linkage information have been the sequentially Markovian coalescent (SMC) and models of haplotype diversity \citep{schraiber_methods_2015}.
-The SMC is a model which approximates the coalescent with recombination by disregarding long-range correlations between genealogies.
-
-Summaries of haplotype diversity can be leveraged for inference; for example, it is possible to fit the distribution of regions of identity by descent (IBD).
-Both approaches have been widely used for inferences of demographic events and selection.
+Much of demography inference relies on allele frequency data (\ie the SFS) ignoring the information contained in patterns of linkage between sites \citep{gutenkunst_inferring_2009, schraiber_methods_2015}.
+It is possible to incorporate linkage information by using the sequentially Markovian coalescent (SMC),
+a model which approximates the coalescent with recombination by disregarding long-range correlations between genealogies \citep{schraiber_methods_2015, li_inference_2011, harris_inferring_2013}.
+Inference of selective sweeps usually proceeds by breaking up the chromosome into non-overlapping genomic windows of a particular size \citep{degiorgio_sweepfinder2_2016, pavlidis_sweed_2013, garud_recent_2015}, and thus it disregards linkage between nearby windows.
+This issue may be partially mitigated by training a classifier over larger regions,
+an approach which has been sucessfully implemented \citep{schrider_shic_2016, schrider_soft_2017}.
+The \emph{a priori} choice of window sizes for calling sweeps remains an important consideration
+because the signatures of a sweep depend on the strength of a sweep and the local recombination rate (which determine the linked effects of a sweep).
+Choosing a particular window size can limit the power to detect sweeps of a specific strength \citep{caldas_inference_2022}.
+%TODO: final sentence here? this paragraph is a bit wonky 
 
 \subsection{The promise of simulation-based evolutionary inference}
 
+A computer simulation is a virtual model that mimics the behavior of a complex system with known rules.
+It is widely used in many disciplines to gain insights into systems that are too complex for analytical solutions.
+The major downsides to using simulations are the runtime and computational costs,
+but recent advances in computing have lessened these costs.
 
-% Data is not a limitation anymore
+Simulations have played an integral part in evolutionary inference for the past five decades \citep{hoban_computer_2012}.
+The main three uses for simulations in evolutionary genetics are: (i) to describe analytically intractable evolutionary models, (ii) to verify analytical solutions based on approximations, and (iii) to perform parameter estimation and/or model selection.
+For example, \citet{ohta_simulation_1974} used simulations to compare the distribution of allele frequencies yielded from the simple \emph{infinite alleles model} with the analyitically intractable \emph{stepwise mutation model},
+which is more appropriate for allozyme data that was abundant at the time.
+On the other hand, \citet{kimura_average_1980} used simulations to verify their analyitical solution of the average time to fixation for new beneficial alleles. 
 
+Using evolutionary simulations for model selection and parameter estimation has gained momentum in the recent past.
+As genomic data availability has increased, so has our ability to interrogate more complex questions from these data.
+However, as detailed in the earlier sections, writing down mathematical models and likelihoods is unfeasible in many instances \citep{coop_patterns_2012}[\eg].
+Simulations can be used to generate pseudo data under complex evolutionary scenarios more easily.
+Then, replicates of these pseudo data can be generated under different evolutionary models (or over a parameter range) so that they can be used for inference.
+Advancements in computational power and algorithms have lessened the burden both in generating pseudo data and inferring parameters or doing model selection on them.
+For example, deep learning algorithms can handle complex inference tasks better than earlier approaches, such as Approximate Bayesian Computation \citep{sheehan_deep_2016}.
+
+% shifted from confirmatory to inference
 % Computational and simulation advancements
 
 % This makes simulation-based inference attractive to solve big problems in evo gen. What is simulation-based inference and how can it be applied to evogen?
@@ -154,16 +176,17 @@ simulations hold promise in helping us model interactions between processes and 
 
 % To make simulation-based inference possible, we need to maintain and develop scalable, tested and documented tools in pop gen (Chapter 1)
 An intermediate step to enable robust simulation-based inference is to develop and maintain scalable and reproducible tools for evolutionary simulations.
-In Chapter 1, I present two of my contributions to the \tskit ecosystem of evolutionary simulation tools.
+In Chapter 2, I present two of my contributions to the \tskit ecosystem of evolutionary simulation tools.
 A drawback of simulations is the computational cost associated with them.
 So we worked out a way to parallelize multi-species simulations (either forward or backward-in-time).
 This allows for faster and less computationally intensive simulations, 
 which helps enable inference from multi-species genomic datasets.
 Another challenge with evolutionary simulations has been reproducibility and compatibility (across tools).
-As part of the \stdpopsim consortium, we have been standardizing evolutionary models and simulations.
+As part of the Stdpopsim consortium, we have been standardizing evolutionary models and simulations \citep{adrion_community-maintained_2020, lauterbur_expanding_2023}.
 Using this new resource, I explore how the power to detect selective sweeps vary along chromosomes in humans.
 This illustrates how our tools enable the study of interactions between processes (in this case, recombination rate variation, background selection and selective sweeps).
-We found that the power to detect sweeps varies substantially along chromosomes, even more than it varies across human populations (which have drastically different demographic histories).
+We found that the power to detect sweeps varies substantially along chromosomes mostly due to variation in recombination rates.
+Surprisingly, the variation in power along the chromosome is greater than across human populations (which have drastically different demographic histories).
 
 
 % In chapter 2, we present a large scale simulation study investigating the role of positive and negative selection in shaping genetic variation.
