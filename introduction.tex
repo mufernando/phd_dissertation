@@ -190,7 +190,27 @@ Surprisingly, the variation in power along the chromosome is greater than across
 
 
 % In chapter 2, we present a large scale simulation study investigating the role of positive and negative selection in shaping genetic variation.
-Simulations can help us understand 
+Simulations can help us understand the behavior of complex evolutionary models.
+In Chapter 3, we use simulations to understand how the landscapes of diversity and divergence change over time under different evolutionary scenarios.
+By looking at multiple species at once, it is possible to better disentangle the processes that shape variation along genomes.
+Using a well-sampled set of great ape genomes, we find that landscapes of diversity (and divergence) are highly correlated over long time scales (about $60N$ generations, assuming $N=10,000$).
+We tease apart how different processes, such as GC-biased gene conversion, mutation rate variation, positive and negative selection, can contribute to the observed correlations.
+Although many of these processes are able to produce patterns similar to the observed data,
+we find that positive selection is necessary to fully explain the data.
 
 % In chapter 3, we develop a supervised machine learning method to infer evol params from data, exploring new facet of genetic variation.
+Beyond qualitative explorations of complex evolutionary models,
+simulations can be used for proper statistical inferences, such as model selection and parameter estimation.
+In Chapter 4, I present a new deep learning method for estimating parameters from genetic data using whole-genome genealogies.
+Whole-genome genealogies may be useful in evolutionary inference because this data structure naturally encodes evolutionary processes (\eg coalescences over time) and they can be more efficient than other representations (such as genotype matrices).
+We describe a neural network architecture that can be used to infer parameters at different scales using whole-genome genealogies.
+Next, we test the usefulness of the whole-genome genealogies for inference:
+(i) we estimate mutation times given a known demographic history,
+and (ii) we estimate demographic parameters given a model.
+We find that our neural network performs well, even outperforming other approaches (that use genealogies or genotype matrices.
+Our proposed whole-genome genealogy inference framework is able to extract relevant evolutionary information from this data structure and it might be well suited for genome bank scale datasets.
 
+Taken together, these chapters highlight how simulations can be employed to help us understand the role of different evolutionary processes in shaping genetic variation.
+I demonstrate how useful simulations are both in helping us describe intractable evolutionary models and in inferring parameters or performing model selection from genetic data.
+Simulations can enable us to answer complex questions that have tormented the field of evolutionary genetics for the past decades, 
+and I anticipate that the contributions of simulation-based studies will grow even more as we overcome computational constraints.
