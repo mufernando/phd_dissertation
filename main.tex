@@ -9,8 +9,32 @@
 \chapter{Robust and efficient tools for evolutionary simulations} \label{chapter:tools}
 \input{chapter_tools}
 
+\newpage
+\section{Bridge}
+In Chapter II, I presented my contributions to make evolutionary tools more robust and efficient.
+To gain insights into the complex interactions between evolutionary processes that shape genetic variation, 
+it is necessary to increase the biological realism of our models.
+This increase in realism comes at a cost: simulations that are closer to reality take longer to run and consume more computational resources.
+In Chapter III, we apply our ideas presented in this chapter on how to parallelize multi-population simulations and on simulating realistic chromosomes.
+The realistic simulations we produce in Chapter III were extremely costly, despite our best efforts to optimize, and each replicate took over 30 days to run consuming at the peak over 160Gb of RAM.
+Nevertheless, we were able to push the boundaries in what is possible with our tools and computational resources today to answer a long-standing question in evolutionary genetics: What are the relative contributions of different evolutionary processes in shaping genetic variation in the great apes?
+
 \chapter{Shared evolutionary processes shape landscapes of genomic variation in the great apes} \label{chapter:greatapes}
 \input{chapter_greatapes}
+
+\newpage
+\section{Bridge}
+As presented in Chapter III, simulations can be useful to help us distinguish between evolutionary models.
+We showed that although many processes are consistent with great apes population genomic data,
+positive selection seems necessary to fully explain the observed data.
+Beyond qualitative assessments, in many cases we might want to infer parameters from a model.
+The evolutionary simulations of the entire great apes history were too costly to allow for proper parameter estimation.
+In Chapter IV, we present a new method for simulation-based parameter estimation using whole-genome genealogies.
+This method is expected to resolve a different bottleneck that plagues evolutionary inference: the scaling with number of samples and genome sizes.
+Whole-genome genealogies are much more efficient than genotype matrices (matrices with dimensions of number of samples by number of sites).
+Moreover, they are expected to organize genetic information in a way that can be more conducive for estimating evolutionary parameters.
+Our main contribution, a deep learning architecture that takes whole-genome genealogies as input, seems to perform well over different tasks.
+More importantly, it could enable evolutionary inference over biobank scale datasets (that contain millions of samples).
 
 \chapter{A powerful framework for evolutionary inference using whole-genome genealogies} \label{chapter:tsnn}
 \input{chapter_tsnn}

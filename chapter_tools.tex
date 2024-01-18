@@ -176,10 +176,38 @@ Refer to \citet{rodrigues_vignette_2021} for a concrete example on how to union 
 
 \section{Towards more realistic and reproducible simulations: Introducing models of selection to Stdpopsim}
 
-The outcomes of natural selection have intrigued evolutionary biologists since the process was first described in the eighteen hundreds.
-Underlying adaptation to an environment there is a process happening at the population level.
-Positive selection is this process that drives an increase in the frequency of a new allele that confers fitness advantage and leads to adaptation.
-Inferring these selection events has been a major goal of evolutionary genetics.
+Underlying adaptation to an environment, there can be a population genetic process called selective sweep.
+As a new beneficial mutation increases in frequency due to positive selection it wipes out genetic variation surrounding the selected site \citep{smith_hitch-hiking_1974, kaplan_hitchhiking_1989}.
+This footprint of the sweep can be used to infer instances of genetic adaptation.
 
-Luckily, positive selection leaves footprints on genetic data, which can in turn be used to infer instances of genetic adaptation.
+Inferring selective sweeps has been a major area research in evolutionary genetics \citep{nielsen_estimation_2000, hernandez_classic_2011, garud_recent_2015, schrider_soft_2017, przeworski_signature_2002, enard_genome-wide_2014, williamson_evidence_2014}.
+Our ability to detect selective sweeps depends on many parameters, such as the recombination rate, the time since fixation, and the demographic history.
+The recombination rate determines the width of a selective signal (together with the strength of selection) \citep{kaplan_hitchhiking_1989}.
+As time passes by, new mutations are accumulated restoring pre-sweep levels of genetic variation and erasing sweep signatures.
+Demographic events can leave footprints similar to a selective sweep, confounding detection \citep{przeworski_signature_2002, jensen_distinguishing_2005}.
+Conversely, sweep signatures can be erased by recent demographic events, such as bottlenecks.
 
+Another process that can impact our ability to detect sweeps is background selection.
+Background selection is the process whereby neutral genetic variation linked to deleterious mutations are lost \citep{charlesworth_effect_1993}, and the extent of this effect is also modulated by strength of selection and recombination rate.
+Because of this relationship with recombination rate, background selection can confound the search for selective sweeps \citep{andolfatto_adaptive_2001}.
+This process seems to be pervasive in multiple species; so much so that background selection may be considered a better null hypothesis in population genomic studies rather than neutrality \citep{comeron_background_2017}.
+
+With a more realistic spatial arrangement of constrained sites, background selection may be discernible from a selective sweep \citep{schrider_background_2020}.
+Previous studies that found background selection can confound sweep calling assumed that the region constrained by selection is flanked by large streches of neutral sites,
+but the locations of exons and other constrained elements are usually scattered throughout the chromosome.
+
+To better understand the role of positive selection in shaping genetic variation across the genome,
+it is necessary to better delineate how different processes impact our ability to detect selective sweeps.
+I present  below our efforts to include models of natural selection to Stdpopsim, our community-driven library of evolutionary models.
+We included the ability to easily simulate background selection and selective sweeps using previously published distribution of fitness effects (DFEs).
+We demonstrate this new feature by analyzing how power to detect selective sweeps varies over a realistic looking human chromosome, with recombination rate variation and a map of constraint taken from human annotations.
+
+\subsection{Adding selection to simulations using Stdpopsim}
+
+There are two main ways of adding selection to a simulation in stdpopsim: (i) it is possible to specify a distribution of fitness effects (DFE) for new mutations that can occur across the genome or over some pre-specified regions; and (ii) we can introduce and track a single mutation to a population, as one would need to study selective sweeps.
+Beyond the machinery to actually perform these two kinds of simulations, we now added to Stdpopsim a library of previously published distributions of fitness effects and genomic annotations (\eg exon and intron coordinates) which can be used to build realistic models with selection.
+See our Tutorial for more details on how to implement models with selection in stdpopsim: \url{https://popsim-consortium.github.io/stdpopsim-docs/stable/tutorial.html#incorporating-selection}.
+
+\subsection{Analysis of power to detect sweeps along realistic chromosomes}
+
+To demonstrate how stdpopsim can enable 
