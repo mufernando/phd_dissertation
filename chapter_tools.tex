@@ -210,4 +210,10 @@ See our Tutorial for more details on how to implement models with selection in s
 
 \subsection{Analysis of power to detect sweeps along realistic chromosomes}
 
-To demonstrate how stdpopsim can enable 
+To demonstrate the utility of stdpopsim, we produced maps of power to detect sweeps along a realistic chromosome.
+We ran simulations of human chromosome 1 using the three population out-of-Africa model (identified as OutOfAfrica\_3G09 in the stdpopsim library; \cite{gutenkunst_inferring_2009}) and the genetic map estimated in \citet{frazer_second_2007} (HapMapII\_GRCh38).
+For computational efficiency, we simulated a 5Mb region flanking 100 evenly distributed points along the chromosome 1.
+We had four classes of simulations: (i) neutral (with the specified demography and genetic map), (ii) background selection, in which we applied the DFE estimated in \citet{kim_inference_2017} (Gamma\_K17) to exon annotations (taken from Ensembl; ensembl\_havana\_104\_exons), (iii) sweep, in which we simulated a hard selective sweep at the center of the focal point (with selection coefficient of $s=0.03$; we only kept simulations for which the beneficial mutation reached at least 95\% frequency), and (iv) sweep with background selection, in which we simulated the hard sweep as described with the addition of constraint in exonic regions (same as for \emph{ii}).
+To prevent distortions at the edges of the simulated 5Mb regions, we added a buffer of 2.5cM flanking the region.
+In total, we produced 200 replicates for each class at each poisition, totalling 80,000 simulations.
+We rescaled the simulations to reduce computational cost by simulating smaller populations (factor of 2) while increasing times, mutation and recombination rates, and selection coefficients by the same amount (see \cite{uricchio_robust_2014} and \cite{adrion_community-maintained_2020} for more details).
