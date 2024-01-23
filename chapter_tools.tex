@@ -51,7 +51,7 @@ The history of populations A, B and C (shown in \lcref{fig:pop_hist}) can be par
 any two branches stemming from the same node are independent.
 
 \begin{figure}[htp]
-\includegraphics[width=0.5\linewidth]{{figures/phylo.png}}
+\includegraphics[width=0.5\linewidth]{{union_example/phylo.png}}
 \centering
 \caption[Example of a population history]{
 The relationships between populations A, B and C are depicted.
@@ -212,8 +212,54 @@ See our Tutorial for more details on how to implement models with selection in s
 
 To demonstrate the utility of stdpopsim, we produced maps of power to detect sweeps along a realistic chromosome.
 We ran simulations of human chromosome 1 using the three population out-of-Africa model (identified as OutOfAfrica\_3G09 in the stdpopsim library; \cite{gutenkunst_inferring_2009}) and the genetic map estimated in \citet{frazer_second_2007} (HapMapII\_GRCh38).
+We had three classes of simulations: (i) neutral (with the specified demography and genetic map), (ii) background selection, in which we applied the DFE estimated in \citet{kim_inference_2017} (Gamma\_K17) to exon annotations (taken from Ensembl; ensembl\_havana\_104\_exons), and (iii) sweep with background selection, in which we simulated the hard sweep as described with the addition of constraint in exonic regions (same as for \emph{ii}).
 For computational efficiency, we simulated a 5Mb region flanking 100 evenly distributed points along the chromosome 1.
-We had four classes of simulations: (i) neutral (with the specified demography and genetic map), (ii) background selection, in which we applied the DFE estimated in \citet{kim_inference_2017} (Gamma\_K17) to exon annotations (taken from Ensembl; ensembl\_havana\_104\_exons), (iii) sweep, in which we simulated a hard selective sweep at the center of the focal point (with selection coefficient of $s=0.03$; we only kept simulations for which the beneficial mutation reached at least 95\% frequency), and (iv) sweep with background selection, in which we simulated the hard sweep as described with the addition of constraint in exonic regions (same as for \emph{ii}).
-To prevent distortions at the edges of the simulated 5Mb regions, we added a buffer of 2.5cM flanking the region.
-In total, we produced 200 replicates for each class at each poisition, totalling 80,000 simulations.
+
+When simulating truncated regions with selection, it is necessary to consider a boundary effect effect:
+a new deleterious mutation will be linked to fewer neutral mutations if it arises near the ends of a chromosome,
+so linked selection is not as efficient.
+Thus, we first established this effect in simulations in which new deleterious mutations can happen anywhere in the chromosome with the same DFE as in our main simulations, but with constant recombination rate.
+We found that by adding a buffer surrounding our focal simulated regions of 2.5cM it is possible to mitigate the edge effect \plcref{fig:boundary}.
 We rescaled the simulations to reduce computational cost by simulating smaller populations (factor of 2) while increasing times, mutation and recombination rates, and selection coefficients by the same amount (see \cite{uricchio_robust_2014} and \cite{adrion_community-maintained_2020} for more details).
+In total, we produced 200 replicates for each class at each poisition, totalling 60,000 simulations.
+
+\begin{figure}[htp]
+\includegraphics[width=0.5\linewidth]{{sweep_figs/boundary_effect_bgs.png}}
+\centering
+\caption[Boundary effects in a background selection simulation]{
+Linked selection is not as efficient near the ends of chromosomes.
+Note how the boundary effect plateaus around 2Mb from the ends (assuming a constant recombination rate).
+}
+\label{fig:boundary}
+\end{figure}
+
+We computed three statistics used for finding selective sweeps along the simulated regions: (i) nucleotide diversity, (ii) the probability of a sweep using a machine learning sweep classifier called diploSHIC, and (iii) the composite likelihood ratio (CLR) from the model described in. %TODO:add citations
+Nucleotide diversity was computed directly from the underlying tree sequences using \tskit \citep{ralph_efficiently_2020} over 10 equally sized and non-overlapping subwindows.
+diploSHIC was applied over 15 partially overlapping subwindows.
+CLR was computed at 21 uniformly distributed points along the simulated region.
+
+We then classified the central subwindow as a sweep or not sweep.
+To do so, we empirically determined the distribution of each statistic under a null model and defined the top $5\%$ quantile as a cutoff to call a sweep.
+We considered two null models: neutral and background selection (as explained before).
+We computed the power to detect a sweep at each one of the 100 locations along chromosome 1, which is the proportion of simulations with a sweep that were correctly classified as a sweep.
+
+There is significant amount of variation in the power to detect sweeps along human chromosome 1 \plcref{fig:chr1power}.
+Sweeps are easier to detect in YRI than in CEU, most likely because of the higher effective population size of YRI.
+Variation in power varies across statistics, with nucleotide diversity yielding the greatest variation in power.
+The power varies tremendously when using nucleotide diversity to call sweeps, ranging from $0\%$ to $100\%$.
+diploSHIC has good power overall, reaching close to $100\%$ at many locations with YRI demography, but it faulters at around $15\%$ of the locations where it dips below $75\%$.
+CLR, on the other hand, maintains a good average power of around $80\%$ and it does not vary as much.
+
+To gain a better understanding at which genomic features af
+
+
+\begin{figure}[htp]
+\includegraphics[width=0.5\linewidth]{{sweep_figs/chr1_power.pdf}}
+\centering
+\caption[Power to detect a selective sweep along chromosome 1]{
+There is variation in the power to detect sweeps along human chromosome 1 for all three statistics considered (CLR, diploSHIC probability of a sweep, and nucleotide diversity).
+Note that power is computed by assuming either a neutral (blue) or background selection (red) null model.
+}
+\label{fig:chr1power}
+\end{figure}
+
