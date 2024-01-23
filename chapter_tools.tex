@@ -224,7 +224,7 @@ We rescaled the simulations to reduce computational cost by simulating smaller p
 In total, we produced 200 replicates for each class at each poisition, totalling 60,000 simulations.
 
 \begin{figure}[htp]
-\includegraphics[width=0.5\linewidth]{{sweep_figs/boundary_effect_bgs.png}}
+\includegraphics[width=0.9\linewidth]{{sweep_figs/boundary_effect_bgs.png}}
 \centering
 \caption[Boundary effects in a background selection simulation]{
 Linked selection is not as efficient near the ends of chromosomes.
@@ -250,11 +250,8 @@ The power varies tremendously when using nucleotide diversity to call sweeps, ra
 diploSHIC has good power overall, reaching close to $100\%$ at many locations with YRI demography, but it faulters at around $15\%$ of the locations where it dips below $75\%$.
 CLR, on the other hand, maintains a good average power of around $80\%$ and it does not vary as much.
 
-To gain a better understanding at which genomic features af
-
-
 \begin{figure}[htp]
-\includegraphics[width=0.5\linewidth]{{sweep_figs/chr1_power.pdf}}
+\includegraphics[width=0.9\linewidth]{{sweep_figs/chr1_power.pdf}}
 \centering
 \caption[Power to detect a selective sweep along chromosome 1]{
 There is variation in the power to detect sweeps along human chromosome 1 for all three statistics considered (CLR, diploSHIC probability of a sweep, and nucleotide diversity).
@@ -262,4 +259,69 @@ Note that power is computed by assuming either a neutral (blue) or background se
 }
 \label{fig:chr1power}
 \end{figure}
+
+Using background selection as a null model decreases power for both CLR and Diversity.
+The effects of background selection on these two statistics are similar to a sweep,
+so using this null model leads to more stringent cutoffs to call sweeps.
+diploSHIC behaves differently: using background selection as a null model increases power.
+This indicates that background selection does not confound sweep detection using diploSHIC,
+as has been hypothesized before \citep{schrider_background_2020}.
+It is encouraging that a composite statistic such as diploSHIC can discern between modes of selection,
+which has been a major problem in population genetics.
+
+To gain a better understanding at which genomic features affect variation in power,
+we plotted power against recombination rates and percentage of exon overlap.
+We found that sweeps placed in higher recombination region are generally harder to detect \plcref{fig:power_rec}.
+diploSHIC is not as affected by recombination rates, probably because it can distinguish between locations directly affected by sweeps and locations linked to sweeps.
+
+\begin{figure}[htp]
+\includegraphics[width=0.9\linewidth]{{sweep_figs/relationship_power_cM.pdf}}
+\centering
+\caption[Relationship between power and genetic recombination]{
+Recombination rates affect power to detect sweeps.
+The scatterplots depict the relationship between the genetic recombination rate and power for all three statistics (CLR, diploSHIC and Diversity).
+Note that power is computed by assuming either a neutral (blue) or background selection (red) null model.
+}
+\label{fig:power_rec}
+\end{figure}
+
+This decrease in power with high recombination rates is caused by two things:
+(i) the effect of recombination rate on the variance of statistics under the null, and
+(ii) the effect of recombination rate on the mean of the statistics under a sweep.
+With lower recombination rates, we expect the variance of statistics to increase (due to coalescent noise).
+Indeed, both nucleotide diversity and diploSHIC probability of a sweep vary more in lower recombination regions \plcref{fig:stat_rec_null}.
+CLR is not as affected, and this is probably why power does not vary as much along the chromosome.
+In general, we expect regions of lower recombination to be more affected by a sweep,
+because it is harder for linked variation to escape a sweep.
+This is true for both nucleotide diversity and CLR, and we see that the median value for these statistics decrease with higher recombination rates \plcref{fig:stat_rec_sweep}.
+However, the probability of sweep computed by diploSHIC increases with higher recombination rates in our sweep simulations.
+Because diploSHIC models the difference between regions directly affected by a sweep and regions linked to a sweep, it is able to distinguish between classes better in regions of higher recombination rate.
+
+\begin{figure}[htp]
+\includegraphics[width=0.9\linewidth]{{sweep_figs/neutral_relationship_stat-vals_cM.pdf}}
+\centering
+\caption[Relationship between statistics and recombination rates under neutraility]{
+Recombination rates affect the variance of statistics under neutrality.
+Red lines delimit the central $90\%$ of the distribution for the three statistics at each recombination rate.
+}
+\label{fig:stat_rec_null}
+\end{figure}
+
+\begin{figure}[htp]
+\includegraphics[width=0.9\linewidth]{{sweep_figs/sweep_relationship_stat-vals_cM.pdf}}
+\centering
+\caption[Relationship between statistics and recombination rates under the sweep model]{
+Recombination rates affect the median of statistics under the sweep model.
+The blue line is the median of the distribution for the three statistics at each recombination rate.
+}
+\label{fig:stat_rec_sweep}
+\end{figure}
+
+Taken together, our results demonstrate that power to detect sweeps varies considerably along realistic looking chromosomes.
+Indeed, power along chromosomes may vary almost as much as they do with different demographic models.
+It is necessary for future studies to consider these effects more carefully,
+and we provide the tools to do so using the \stdpopsim library and software package.
+These findings implicate that previous scans have only found sweeps where they can be found.
+Thus, the effects of positive selection may have been understated in the literature,
+and important sweeps might have not been correctly identified.
 
