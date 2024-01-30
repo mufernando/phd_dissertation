@@ -55,18 +55,53 @@ Indeed, much of population genetics inference starts from understanding how a pa
 More than that, trees bring a time dimension which can be helpful in inferring events localized in time (\eg migration pulses, past selective sweeps, etc.) \citep{speidel_inferring_2021}.
 
 Here, we present a new method that leverages these whole-genome genealogies for evolutionary inference.
-Our main goal is to develop an architecture that can efficiently use genealogies for inference,
-which can be done at different scales.
+Our main goal is to develop an architecture that can efficiently use genealogies for inference at different levels.
+We test our method on two tasks: (i) dating mutations and (ii) inferring parameters from a given demographic model.
+Our approach performs well on both tasks, even outperforming current state-of-the-art methods.
+The new method presented here highlights the utility of whole-genome genealogies in population genetic inference.
 
 % Here, we aim to develop an architecture that uses these whole genome genealogies for inference.
 
 \section{Methods} \label{sec:methods}
 
-\subsection{Simulations}
-
 \subsection{Model}
+Taking inspiration from the graph neural network literature,
+we developed a family of neural networks that can take whole-genome genealogies as input.
+In summary, we obtain a lower dimension representation of these genealogies by passing messages between nodes.
+We start with an initialized embedding for nodes, and
+then we use an update scheme that takes an edge and updates the embedding of both child and parent nodes.
+Because the flow of information is structured from parent to child and from left-to-right,
+we hoped this neural network would learn a better representation of a tree sequence than a more naive approach,
+such as a simpler graph neural network.
+The node embeddings can then be aggregated to obtain edge (and mutation) embeddings or a tree sequence level embedding.
+
+First, we define a module for obtaining node embeddings.
+We randomly (or arbitrarily) initialize a vector with node features $H$ of dimension number of nodes by number of node features.
+From a given tree sequence, we also compute a vector $E$ of edge features of dimension number of edges by number of edge features.
+We define two edge features: the span (width in number of base pairs that an edge spans, scaled by the mutation rate) and edge length (the difference between the parent and child node times).
+We traverse the tree sequence over edge differences (from letft-to-right, and optionally from right-to-left), and
+with each edge addition, we build a message that is used to update the node features $H$.
+The message for the edge that links the parent node $p$ to the child node $c$ is 
+$$ m_{pc} = e_{pc} \mathbin\Vert (h_p \mathbin\Vert h_c)$$
+where $e_{pc}$ is the row of $E$ for the edge $p-c$, and $h_p$ and $h_c$ are the rows of $H$ for nodes $p$ and $c$.
+$h_p$ and $h_c$ are then updated with a Gated Recurrent Unit cell, such that
+
+$$ h^{\mathrm{out}}_p \mathbin\Vert h^{\mathrm{out}}_c = \mathrm{GRU}(m_{pc}, h_p \mathbin\Vert h_c)$$
+
+The node embedding module above can be used in different neural network architectures to infer parameters at different levels.
+
+
+
 
 \subsection{Tasks}
+To evaluate the utility of tsNN in population genetics inference, we designed two tasks with inference at different levels.
+First, we dated mutations in a tree sequence given a demographic model.
+Second, we inferred parameters from a given demographic model.
+These tasks allow us to showcase how node embeddings can be aggregated at different levels (mutation and tree sequence) for different evolutionary questions.
+
+\subsection{Simulations}
+
+
 
 \section{Results and discussion}
 

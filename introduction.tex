@@ -3,24 +3,24 @@
 \section{Decoding evolution: a lay-friendly prelude}
 
 Evolution can occur over incredibly large spatial scales over the course of thousands to millions of years.
-This makes Evolutionary biology unlike other fields within Biology in that hypotheses can not always be subject to experimentation.
+This makes Evolutionary Biology unlike other fields within Biology in that hypotheses can not always be subject to experimentation.
 Thus, we are left with the task of putting together what happened in the past based on information we have today.
 To do so we need a sizable amount of data, models and statistical and computational tools.
 
 One way to make inferences about past evolutionary processes is by studying genetic variation within and between species.
-Evolutionary processes, such as demographic processes, natural selection and mutation, impact genetic variation in many ways.
-For example, we expect the amount of variation within a species to be proportional to the mutation rate (\ie the higher the mutation rate, the more variation a population will harbor).
-On the other hand, finite populations lose variation every generation due to genetic drift (\ie sampling error), 
+Evolutionary processes, such as population size changes, natural selection and mutation, impact genetic variation in many ways.
+For example, we expect the amount of variation within a species to increase with the mutation rate (\ie the higher the mutation rate, the more variation a population will harbor).
+On the other hand, real populations lose variation every generation due to genetic drift (\ie sampling error), 
 and the magnitude of this loss is proportional to the population size.
 
-We can write models in form of math equations that describe how some of these evolutionary processes impact genetic variation.
+We can write models in form of equations that describe how some of these evolutionary processes impact genetic variation.
 For example, $\pi$ (a measure of genetic variation) depends on the size of the population ($N$) and the mutation rate ($\mu$), such that $\pi \sim 4N\mu$.
 If we knew the mutation rate, we could rearrange the equation to estimate the size of a population $N = \frac{\pi}{4\mu}$ from genetic data!
 To arrive at this simple equation, we make the assumption that an individual is equally likely to mate with any other individual in the population (\ie panmixia).
 It is easy to see how this may not always hold:
 for example, a tree is much more likely to mate with its neighbor than a distant tree across the forest (because pollen cannot travel too far).
 
-Adding biological realism to our math equation would prove to be complicated.
+Adding biological realism to our equation would prove to be complicated.
 Alternatively, we can more easily simulate this process with a computer:
 we can create virtual individuals and tell a computer how they choose their mates, pass on genetic material to their offspring, and change over time.
 If we were to run virtual experiments like this many times,
@@ -43,7 +43,7 @@ they organize the data in a way that could be more conducive to extracting relev
 
 % What are the major questions in evolutionary genetics?
 Many questions in evolutionary biology are of a historical nature,
-because evolution is restrict in space and time and it cannot be replicated \citep{losos_evolutionary_2009, cleland_methodological_2002}.
+because evolution is restricted in space and time and it cannot be replicated \citep{losos_evolutionary_2009, cleland_methodological_2002}.
 An avenue for investigating past evolutionary events and processes lies in genetic data.
 As evolutionary processes leave footprints on the genetic composition of populations,
 the possibility arises to invert this relationship,
@@ -65,17 +65,17 @@ These trees or genealogies can fully encode the outcomes of evolutionary process
 Therefore, it is usually more intuitive to think about how these processes impact tree shapes.
 The trees, along with mutations, can then be used to understand genetic variation itself.
 
-Demographic processes directly impact the underlying genealogies because of the inverse relationship between population size and coalescence rate(coalescences are the merging of lineages backwards to a most recent common ancestor) \citep{wakely_coalescent_2016}.
+Demographic processes directly impact the underlying genealogies because of the inverse relationship between population size and coalescence rate (coalescences are the merging of lineages backwards to a most recent common ancestor) \citep{wakely_coalescent_2016}.
 For example, for a population that goes through a bottleneck (\ie a sudden decrease in population size),
 the coalescences are expected to be concentrated during the bottleneck period.
-On the other hand, for population that undergoes a size expansion,
+On the other hand, for a population that undergoes a size expansion,
 most of the coalescences will happen in the period preceding the expansion.
 These underlying trees yield different patterns of genetic variation in the extant population.
 One summary of genetic data that can be used to distinguish between these tree shapes and,
 in turn, between possible demographies is the site frequency spectrum (SFS).
 The SFS is the distribution of allele frequencies across sites in a sampled set of genomes.
 (For the sake of simplicity, I will focus on the unfolded SFS, where the frequency of the derived alleles have been measured; derived allele refers to the allele that is new to a population).
-A genealogy that has coalescences concetrated near the present (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency of derived alleles.
+A genealogy that has coalescences concetrated near the present (due to a recent bottleneck) will yield a SFS that is skewed towards the high frequency derived alleles.
 Conversely, a genealogy with coalescences happening earlier on will yield a SFS with an excess of low frequency derived alleles.
 
 % Natural selection and the ways it impacts genetic variation
@@ -85,7 +85,7 @@ This leads to many of the coalescences to occur during the fixation trajectory.
 If we were to sample the population right after fixation,
 the SFS would be skewed towards the high frequencies \citep{kim_allele_2006}, similar to the effect of a population bottleneck.
 A strongly deleterious mutation, on the other hand, is rapidly purged from the population.
-Therefore, the shape of the underlying tree is not affected, though the tree will be shorter \citep{williamson_genealogy_2002, barton_effect_2004}.
+Therefore, the shape of the underlying tree is less affected, though the tree will be shorter \citep{williamson_genealogy_2002, barton_effect_2004}.
 
 Both beneficial and deleterious mutations lead to loss of genetic variation at the selected site (either due to fixation or purging),
 but nearby sites are also affected due to linkage.
@@ -125,7 +125,7 @@ More data opens up the opportunities to investigate more complex questions (\ie 
 such as understanding constraint along genomes, recombination rate variation, among others.
 However, with whole-genome data the assumptions of neutrality, for example, are much less likely to hold.
 So there is a need for models that account for complex interactions between processes, which is not trivial to do.
-One interesting (and perhaps inintuitive) way that processes can interact is that demographic processes can exacerbate the effects of background selection \citep{torres_human_2018, torres_temporal_2020}.
+One interesting (and perhaps unintuitive) way that processes can interact is that demographic processes can exacerbate the effects of background selection \citep{torres_human_2018, torres_temporal_2020}.
 Inferences of background selection that do not take into account demography can lead to biased estimates of the rate of deleterious mutations and their fitness effects.
 Conversely, both positive and negative selection can bias demographic inferences in many ways \citep{schrider_effects_2016, ewing_consequences_2016, johri_impact_2021}.
 
@@ -157,10 +157,10 @@ On the other hand, \citet{kimura_average_1980} used simulations to verify their 
 
 Using evolutionary simulations for model selection and parameter estimation has gained momentum in the recent past.
 As genomic data availability has increased, so has our ability to interrogate more complex questions from these data.
-However, as detailed in the earlier sections, writing down mathematical models and likelihoods is unfeasible in many instances \citep{coop_patterns_2012}[\eg].
-Simulations can be used to generate pseudo data under complex evolutionary scenarios more easily.
-Then, replicates of these pseudo data can be generated under different evolutionary models (or over a parameter range) so that they can be used for inference.
-Advancements in computational power and algorithms have lessened the burden both in generating pseudo data and inferring parameters or doing model selection on them.
+However, as detailed in the earlier sections, writing down mathematical models and likelihoods is unfeasible in many instances \citep{coop_patterns_2012}{\eg}.
+Simulations can be used to generate data under complex evolutionary scenarios more easily.
+Then, replicates of these data can be generated under different evolutionary models (or over a parameter range) so that they can be used for inference.
+Advancements in computational power and algorithms have lessened the burden both in generating data and inferring parameters or doing model selection on them.
 For example, deep learning algorithms can handle complex inference tasks better than earlier approaches, such as Approximate Bayesian Computation \citep{sheehan_deep_2016}.
 
 % shifted from confirmatory to inference
@@ -176,9 +176,9 @@ simulations hold promise in helping us model interactions between processes and 
 
 % To make simulation-based inference possible, we need to maintain and develop scalable, tested and documented tools in pop gen (Chapter 1)
 An intermediate step to enable robust simulation-based inference is to develop and maintain scalable and reproducible tools for evolutionary simulations.
-In Chapter 2, I present two of my contributions to the \tskit ecosystem of evolutionary simulation tools.
+In Chapter II, I present two of my contributions to the \tskit ecosystem of evolutionary simulation tools.
 A drawback of simulations is the computational cost associated with them.
-So we worked out a way to parallelize multi-species simulations (either forward or backward-in-time).
+So I worked out a way to parallelize multi-species simulations (either forward or backward-in-time).
 This allows for faster and less computationally intensive simulations, 
 which helps enable inference from multi-species genomic datasets.
 Another challenge with evolutionary simulations has been reproducibility and compatibility (across tools).
@@ -186,12 +186,12 @@ As part of the Stdpopsim consortium, we have been standardizing evolutionary mod
 Using this new resource, I explore how the power to detect selective sweeps vary along chromosomes in humans.
 This illustrates how our tools enable the study of interactions between processes (in this case, recombination rate variation, background selection and selective sweeps).
 We found that the power to detect sweeps varies substantially along chromosomes mostly due to variation in recombination rates.
-Surprisingly, the variation in power along the chromosome is greater than across human populations (which have drastically different demographic histories).
+Surprisingly, the variation in power along the chromosome is greater than across humans sampled from different parts of the world (which have drastically different demographic histories).
 
 
 % In chapter 2, we present a large scale simulation study investigating the role of positive and negative selection in shaping genetic variation.
 Simulations can help us understand the behavior of complex evolutionary models.
-In Chapter 3, we use simulations to understand how the landscapes of diversity and divergence change over time under different evolutionary scenarios.
+In Chapter III, we use simulations to understand how the landscapes of diversity and divergence change over time under different evolutionary scenarios.
 By looking at multiple species at once, it is possible to better disentangle the processes that shape variation along genomes.
 Using a well-sampled set of great ape genomes, we find that landscapes of diversity (and divergence) are highly correlated over long time scales (about $60N$ generations, assuming $N=10,000$).
 We tease apart how different processes, such as GC-biased gene conversion, mutation rate variation, positive and negative selection, can contribute to the observed correlations.
@@ -201,7 +201,7 @@ we find that positive selection is necessary to fully explain the data.
 % In chapter 3, we develop a supervised machine learning method to infer evol params from data, exploring new facet of genetic variation.
 Beyond qualitative explorations of complex evolutionary models,
 simulations can be used for proper statistical inferences, such as model selection and parameter estimation.
-In Chapter 4, I present a new deep learning method for estimating parameters from genetic data using whole-genome genealogies.
+In Chapter IV, I present a new deep learning method for estimating parameters from genetic data using whole-genome genealogies.
 Whole-genome genealogies may be useful in evolutionary inference because this data structure naturally encodes evolutionary processes (\eg coalescences over time) and they can be more efficient than other representations (such as genotype matrices).
 We describe a neural network architecture that can be used to infer parameters at different scales using whole-genome genealogies.
 Next, we test the usefulness of the whole-genome genealogies for inference:
@@ -210,7 +210,7 @@ and (ii) we estimate demographic parameters given a model.
 We find that our neural network performs well, even outperforming other approaches (that use genealogies or genotype matrices.
 Our proposed whole-genome genealogy inference framework is able to extract relevant evolutionary information from this data structure and it might be well suited for genome bank scale datasets.
 
-Taken together, these chapters highlight how simulations can be employed to help us understand the role of different evolutionary processes in shaping genetic variation.
+Taken together, these chapters demonstrate how simulations can be employed to help us understand the role of different evolutionary processes in shaping genetic variation.
 I demonstrate how useful simulations are both in helping us describe intractable evolutionary models and in inferring parameters or performing model selection from genetic data.
 Simulations can enable us to answer complex questions that have tormented the field of evolutionary genetics for the past decades, 
 and I anticipate that the contributions of simulation-based studies will grow even more as we overcome computational constraints.
