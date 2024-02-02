@@ -11,14 +11,14 @@ there is a need for more efficient inference methods that can scale well to over
 % How has inference been done traditionally?
 % Thinking about how processes impact trees, then translating that into summary statistics that can be computed from genetic data.
 % These stats do lose some information, however.
-Historically, evolutionary inference is done on summary statistics of population genetic data.
-However, it is simpler to first think about the effects of evolutionary processes on the underlying genealogies \citep{wakely_coalescent_2016},
-that is, the trees that describe the relationships between samples of a population.
-For example, recent contractions in population sizes will lead to trees which have shorter branches near the tips (due to an increase in the rate of coalescence caused by the contraction).
-Although the trees are unknown, it is possible to describe how changes in the shape of genealogies will affect genetic variation.
-The site frequency spectrum,
-which describes the distrubution of allele frequencies across sites in the genome,
-is a statistic that has been succesfully used to infer demographic histories from natural populations \citep{gutenkunst_inferring_2009, schraiber_methods_2015}.
+Although our interest is to infer evolutionary processes from population genetic data,
+it is usually simpler to first think about the effects of evolutionary processes on the underlying genealogies \citep{wakely_coalescent_2016}.
+Genealogies are the tree-like structures that describe the relationships between samples of a population.
+Different processes impact genealogies in different ways.
+Recent contractions in population sizes will lead to trees which have shorter branches near the tips (due to an increase in the rate of coalescence caused by the contraction), for example.
+A tree can then be used to describe patterns of genetic variation such as the site frequency spectrum (SFS).
+The SFS describes the distrubution of allele frequencies across sites in the genome,
+and it can be used to infer demographic histories from natural populations \citep{gutenkunst_inferring_2009, schraiber_methods_2015}.
 In the example of a recent population size reduction,
 we would expect an excess of derived alleles with intermediate and high frequencies,
 because most of the coalescences will have occured in the recent past leading to big internal branches where most of the mutations would fall.
@@ -26,7 +26,7 @@ because most of the coalescences will have occured in the recent past leading to
 
 % Inference can be done in by computing likelihoods, but these are tricky, specially for some summary stats.
 % One can do inference on multiple stats at once using simulation-based inference.
-An issue with using summary statistics is that these cannot capture all aspects of variation in genetic data that are informative of the underlying processes.
+Statistics that summarize genetic variation data, such as the SFS, cannot capture all aspects of variation in genetic data that are informative of the underlying processes.
 Some studies have circumvented this by using multiple summary statistics either in a composite likelihood framework or with likelihood-free methods \citep{nielsen_genomic_2005, degiorgio_sweepfinder2_2016, sheehan_deep_2016, caldas_inference_2022, pavlidis_sweed_2013}.
 Writing and computing likelihoods in complex evolutionary scenarios can be challenging.
 Likelihood-free methods (\eg ABC or machine learning) have gained some popularity in population genetics,
