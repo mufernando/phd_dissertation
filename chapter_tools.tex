@@ -26,14 +26,14 @@ Stdpopsim is a community-driven open source developed to minimize these issues \
 We organized a well-documented library with published simulation models from a range of organisms,
 which can be accessed with simple Python and command-line interfaces.
 The library contains demographic models, recombination maps and mutation rates for tens of species.
-All the models have to pass a quality control method, in which an independent party validates the model independently.
+All the models have to pass a quality control method, in which an independent party validates the model.
 Further, we provide a Python API to easily run simulations using the catalog, with msprime and SLiM as simulators on the backend,
 decreasing even further the barrier to reproducing simulations.
 
 In this chapter, I will present two vignettes of my contributions to the ecosystem of evolutionary simulation tools.
-First, I describe a way to break up simulations of multiple populations, which was enabled by tree sequence recording.
-Second, I describe the inclusion of selection models to stdpopsim,
-and I illustrate the utility of stdpopsim by studying the power to detect sweeps along chromosomes.
+First, I describe a method I devised to make multi-population simulations faster with parallelization, which is enabled by tree sequences.
+Second, I report my main contribution to \stdpopsim: the inclusion of selection models.
+Using this new feature, I investigate how the power to detect sweeps along more realistic chromosomes.
 
 
 \section{A way to parallelize multi-population simulations with tree sequences}
@@ -65,7 +65,7 @@ To parallelize the simulations, we need to
 (ii) put together the bits that are simulated independently at the end.
 There are many ways to parallelize the simulations, but see \citet{rodrigues_vignette_2021} for an idea.
 Below, I will describe the operation for putting together two (or more) tree sequences,
-which has been implemented in \tskit (see \url{https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.union} for the documentation).
+which I implemented in \tskit (see \url{https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.union} for the documentation).
 
 The information underlying a tree sequence is stored as a collection of tables which define different features.
 This simple tabular format allows for rapid accessing of information.
@@ -176,11 +176,10 @@ Refer to \citet{rodrigues_vignette_2021} for a concrete example on how to union 
 
 \section{Towards more realistic and reproducible simulations: Introducing models of selection to Stdpopsim}
 
-Underlying adaptation to an environment, there can be a population genetic process called selective sweep.
-As a new beneficial mutation increases in frequency due to positive selection it wipes out genetic variation surrounding the selected site \citep{smith_hitch-hiking_1974, kaplan_hitchhiking_1989}.
-This footprint of the sweep can be used to infer instances of genetic adaptation.
-
-Inferring selective sweeps has been a major area research in evolutionary genetics \citep{nielsen_estimation_2000, hernandez_classic_2011, garud_recent_2015, schrider_soft_2017, przeworski_signature_2002, enard_genome-wide_2014, williamson_evidence_2014}.
+Population genetics can aid in identifying the genetic basis of adaptation.
+As a new beneficial mutation increases in frequency due to positive selection,
+it wipes out genetic variation surrounding the selected site \citep{smith_hitch-hiking_1974, kaplan_hitchhiking_1989}.
+This genetic footprint can be used to infer past selection events in natural populations \citep{nielsen_estimation_2000, hernandez_classic_2011, garud_recent_2015, schrider_soft_2017, przeworski_signature_2002, enard_genome-wide_2014, williamson_evidence_2014}.
 Our ability to detect selective sweeps depends on many parameters, such as the recombination rate, the time since fixation, and the demographic history.
 The recombination rate determines the width of a selective signal (together with the strength of selection) \citep{kaplan_hitchhiking_1989}.
 As time passes by, new mutations are accumulated restoring pre-sweep levels of genetic variation and erasing sweep signatures.
@@ -192,15 +191,17 @@ Background selection is the process whereby neutral genetic variation linked to 
 Because of this relationship with recombination rate, background selection can confound the search for selective sweeps \citep{andolfatto_adaptive_2001}.
 This process seems to be pervasive in multiple species; so much so that background selection may be considered a better null hypothesis in population genomic studies rather than neutrality \citep{comeron_background_2017}.
 
-With a more realistic spatial arrangement of constrained sites, background selection may be discernible from a selective sweep \citep{schrider_background_2020}.
+Background selection may be discernible from selective sweeps, specially when considering more realistic models \citep{schrider_background_2020}.
 Previous studies that found background selection can confound sweep calling assumed that the region constrained by selection is flanked by large streches of neutral sites,
 but the locations of exons and other constrained elements are usually scattered throughout the chromosome.
+In such cases, sweeps can be separated from constraint more easily.
 
 To better understand the role of positive selection in shaping genetic variation across the genome,
 it is necessary to better delineate how different processes impact our ability to detect selective sweeps.
-I present  below our efforts to include models of natural selection to Stdpopsim, our community-driven library of evolutionary models.
-We included the ability to easily simulate background selection and selective sweeps using previously published distribution of fitness effects (DFEs).
-We demonstrate this new feature by analyzing how power to detect selective sweeps varies over a realistic looking human chromosome, with recombination rate variation and a map of constraint taken from human annotations.
+I present below our efforts to include models of natural selection to Stdpopsim, our community-driven library of evolutionary models.
+Colleagues and I included the ability to easily simulate background selection and selective sweeps using previously published distribution of fitness effects (DFEs).
+I then leveraged this new feature to understand how power to detect selective sweeps varies over a realistic looking human chromosome,
+with recombination rate variation and a map of constraint taken from human annotations.
 
 \subsection{Adding selection to simulations using Stdpopsim}
 
@@ -233,7 +234,7 @@ Note how the boundary effect plateaus around 2Mb from the ends (assuming a const
 \label{fig:boundary}
 \end{figure}
 
-We computed three statistics used for finding selective sweeps along the simulated regions: (i) nucleotide diversity, (ii) the probability of a sweep using a machine learning sweep classifier called diploSHIC, and (iii) the composite likelihood ratio (CLR) from the model described in. %TODO:add citations
+We computed three statistics used for finding selective sweeps along the simulated regions: (i) nucleotide diversity, (ii) the probability of a sweep using a machine learning sweep classifier called diploSHIC \citep{schrider_shic_2016, kern_diploshic_2018}, and (iii) the composite likelihood ratio (CLR) \citep{nielsen_genomic_2005}. %TODO:add citations
 Nucleotide diversity was computed directly from the underlying tree sequences using \tskit \citep{ralph_efficiently_2020} over 10 equally sized and non-overlapping subwindows.
 diploSHIC was applied over 15 partially overlapping subwindows.
 CLR was computed at 21 uniformly distributed points along the simulated region.
@@ -247,7 +248,7 @@ There is significant amount of variation in the power to detect sweeps along hum
 Sweeps are easier to detect in YRI than in CEU, most likely because of the higher effective population size of YRI.
 Variation in power varies across statistics, with nucleotide diversity yielding the greatest variation in power.
 The power varies tremendously when using nucleotide diversity to call sweeps, ranging from $0\%$ to $100\%$.
-diploSHIC has good power overall, reaching close to $100\%$ at many locations with YRI demography, but it faulters at around $15\%$ of the locations where it dips below $75\%$.
+diploSHIC has good power overall, reaching close to $100\%$ at many locations with YRI demography, but it falters at around $15\%$ of the locations where it dips below $75\%$.
 CLR, on the other hand, maintains a good average power of around $80\%$ and it does not vary as much.
 
 \begin{figure}[htp]
@@ -271,7 +272,7 @@ which has been a major problem in population genetics.
 
 To gain a better understanding at which genomic features affect variation in power,
 we plotted power against recombination rates and percentage of exon overlap.
-We found that sweeps placed in higher recombination region are generally harder to detect \plcref{fig:power_rec}.
+We found that sweeps placed regions of higher recombination are generally harder to detect \plcref{fig:power_rec}.
 diploSHIC is not as affected by recombination rates, probably because it can distinguish between locations directly affected by sweeps and locations linked to sweeps.
 
 \begin{figure}[htp]
@@ -321,7 +322,9 @@ Taken together, our results demonstrate that power to detect sweeps varies consi
 Indeed, power along chromosomes may vary almost as much as they do with different demographic models.
 It is necessary for future studies to consider these effects more carefully,
 and we provide the tools to do so using the \stdpopsim library and software package.
-These findings implicate that previous scans have only found sweeps where they can be found.
+It is possible that previous scans have only found sweeps where they can be found.
 Thus, the effects of positive selection may have been understated in the literature,
 and important sweeps might have not been correctly identified.
+It seems important to better investigate whether ascertainment biases in reported sweeps correlate with power along chromosomes,
+and how this varies with different methods and across species.
 
