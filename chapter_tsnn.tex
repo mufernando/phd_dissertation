@@ -72,7 +72,7 @@ Likelihood free inference seems to be the most promising solution,
 specially now given recent advances in population genetic simulation tools that allow ARG recording \citep{haller_tree-sequence_2019, kelleher_efficient_2016, ralph_efficiently_2020}. 
 %Still, it remains an open problem how to compute a measure of goodness of fit between simulated and inferred ARGs.
 
-Graph neural networks (GNNs), an emerging class of deep learning algorithms, provide a natural way to exploit ARGs for evolutionary inference .
+Graph neural networks (GNNs), an emerging class of deep learning algorithms, provide a natural way to exploit ARGs for evolutionary inference.
 These networks fall into the broader message passing paradigm whereby information is aggregated in neighborhood of nodes,
 ultimately yielding an embedding for nodes in a graph \citep{bronstein_geometric_2017, battaglia_relational_2018, hamilton_inductive_2018}..
 These node embeddings can then be used for downstream tasks such as node classification, graph classification, and edge prediction.
@@ -219,7 +219,7 @@ The failure to correctly infer the ages of young mutations could be caused by tw
 (ii) the model needs larger sequences (more than 10Kb) to better learn the recombination clock (\ie the spans of young haplotypes will not be artificially truncated by 10Kb).
 To test what could be causing this issue,
 we changed the training data either by scaling the mutation rate or by increasing the simulated chromosome.
-We found that accuracy increases as mutation rates increases \plcref{fig:10kb_7, fig:10kb_6},
+We found that accuracy increases as mutation rates increases \plcref{fig:10kb_7,fig:10kb_6},
 suggesting that the number of young mutations does limit learning.
 However, increasing the chromosome length increases accuracy even more \plcref{fig:1mb_8}.
 Thus, it seems the network is learning the recombination clock and using it to improve prediction of mutation times.
@@ -253,13 +253,21 @@ Times are $\log_{10}$ transformed.
 
 Ancestral Recombination Graphs (ARGs) can solve many issues currently plaguing evolutionary inference, 
 because it fully encodes evolutionary outcomes in a compact manner.
-The need for methods that leverage ARGs for population genetic inference has grown with the recent breakthroughs in scalable ARG inference tools \citep{kelleher_inferring_2019, speidel_method_2019, rasmussen_genome-wide_2014}.
-Nevertheless, it is not clear how to use the all the information encoded in ARGs for inference,
+Treating the ARG as a latent parameter to be averaged out is not easy, because the state space is overwhelmingly large \citep{griffiths_ancestral_1996,nielsen_estimation_2000}.
+More tractable approximations, such as the Sequentially Markovian coalescent (SMC), have been widely applied in evolutionary inference \citep{mcvean_approximating_2005, schraiber_methods_2015}, 
+but the simplifying assumptions of these models limit their utility.
+An alternative lies in shifting towards inferring a single plausible ARG \citep{kelleher_inferring_2019, speidel_method_2019, wong_general_2023}.
+There is a clear need for methods that leverage an inferred ARG for population genetic inference
+and to quantify potential gains in accuracy.
+Nevertheless, it is not obvious how to use the all the information encoded in ARGs for inference,
 and current studies either compute summary statistics based on ARGs or assume independency between marginal trees \citep{fan_likelihood-based_2023, hejase_deep-learning_2022}.
+
+
 Our main goal has been to develop a framework that can leverage most of the information encoded in ARGs for evolutionary inference.
-We show that our neural network can learn how to date mutations in an ARG,
+We show that our neural network, tsNN, can learn how to date mutations in an ARG,
 outperforming likelihood-based models (tsNN $R^2=0.927$, tsdate $R^2=0.902$) \citep{wohns_unified_2022}.
-Further, we demonstrate that the neural network learns to leverage both the mutation and recombination clocks to produce accurate estimates of mutation times.
+By comparing performance on different training sets,
+we demonstrate that the neural network learns to leverage both the mutation and recombination clocks to produce accurate estimates of mutation times.
 
 % Problem of true vs inferred ARGs and errors
 Although ARGs carry sufficient information for inferring evolutionary events,
@@ -273,6 +281,7 @@ A trickier issue might arise when the true generative process, which yielded the
 In our tests, we assumed that the training and validation data came from the exact model.
 In the future, tests where we slightly alter the simulation model for training will aid in understanding the robustness of tsNN to model mis-specification.
 Previous studies have shown that machine learning methods can be as robust to model mis-specification as their likelihood-based counterparts \citep{hejase_deep-learning_2022}.
+A new approach to deal with the mis-specification issue, called Domain-Adaptive Networks, can mitigate mis-speficication by leveraging target-domain data in an unsupervised manner \citep{mo_domain-adaptive_2023}.
 
 % Tasks at different levels
 An exciting avenue for future research lies in expanding the tasks that tsNN can perform, 
@@ -287,5 +296,6 @@ and an ARG-based method can implicitly leverage this information.
 With the recent advances in scalable ARG inference methods, 
 ARG-based evolutionary inference methods are still in its infancy.
 A powerful framework that is able to efficiently leverage all the rich information contained in ARGs is needed.
-We demonstrate that our method, tsNN, represents an important step in this direction,
+The field of graph neural networks is ripe with ideas that can be applied to ARGs.
+Indeed, we demonstrate that our method, tsNN, represents an important step in this direction,
 but there still much work to be done in applying deep learning to gain new insights into past evolutionary events.

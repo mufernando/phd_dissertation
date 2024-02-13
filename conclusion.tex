@@ -16,14 +16,41 @@ As the questions and models increase in complexity,
 there is a growing need for standards in simulation models and for increase reproducibility.
 \stdpopsim is a community-maintained library for previously published simulation models, 
 which includes species-specific population genetic parameters (\eg mutation rates, recombination maps) as well as demographic and selection models.
+In Chapter II, I presented my contributions to evolutionary simulation tools,
+which will help facilitate simulation-based inference in population genetics.
 Much more is needed still in two fronts:
 (i) benchmarking our current tools under a common variety of evolutionary scenarios, and
 (ii) verifying for consistency of published models, for example by ensuring that the models can yield simulated data that actually resembles the real data.
 
-% arg and inference
-The move from 
-The adoption of a common data structure across evolutionary simulation tools, the tree sequence, 
+%
+It is now easier than ever to use evolutionary simulations to better understand complex models and features of the data for which there is no theory yet.
+Indeed, simulations have opened up new opportunities to better understand interactions between evolutionary processes.
+For example, \citet{schrider_background_2020} used more realistic simulations to show that the footprints selective sweeps are not as easily confounded by background selection as previously thought \citep{andolfatto_adaptive_2001}.
+In Chapter III, I leveraged complex and realistic simulations of the entire great apes history to learn about which processes have shaped genetic variation in the group.
+Without simulations, it would not be possible to jointly study the effects of positive and negative selection, mutation rate variation and GC-biased gene conversion on large-scale patterns of genomic variation.
 
-% some remaining issues
+% arg and inference
+Another factor that is bound to improve evolutionary inference is the shift towards Ancestral Recombination Graphs (ARGs).
+This data structure is compact, and so it can enable inference over larger scales, both in number of samples as well as in number of sites.
+ARGs are now used as a backbone to many different evolutionary simulation tools, allowing for a better integration across tools \citep{haller_tree-sequence_2019, kelleher_efficient_2016-1}.
+The field has moved away from treating the ARG as a latent parameter to be averaged out \citep{griffiths_ancestral_1996, nielsen_estimation_2000}
+to inferring a single plausible ARG \citep{kelleher_inferring_2019, speidel_method_2019}.
+The state space for possible ARGs is overwhelmingly large, so  this shift allows us to leverage ARGs at scale.
+However, it is still unclear how to actually use all the information encoded in ARGs for inference.
+Indeed, many recent studies instead either develop topological summary statistics or treat marginal trees in the ARG as independent \citep{hejase_deep-learning_2022, fan_likelihood-based_2023}.
+In Chapter IV, I proposed a new neural network framework that can make better use of ARGs for inference,
+but there is much to be done in this space still.
 
 % outlook 
+Computer simulations have drastically altered the field of evolutionary genetics in the past decade.
+One of the major downsides of simulations is the computational cost.
+The parameter space for any moderately complex model can quickly become prohibitively large.
+No major leaps in the efficiency of simulators or in hardware are in the horizon, 
+so likelihood-based models will be useful in complementing simulation studies.
+It can be difficult to match the generative process in simulations to that of the actual data,
+an issue also known as model mis-specification.
+Some of this can be alleviated by incorporating error, such as genotyping error and missingness, to the idealized simulations.
+However, there is still no consensus on how to include such errors to simulations in a systematic way.
+There are tools for dealing with mis-specification in the broader machine learning literature,
+and these seem promising in evolutionary contexts as well \citep{mo_domain-adaptive_2023}.
+I expect that our ability to leverage simulations to gain evolutionary insights will only increase with improvement in these areas.
