@@ -6,9 +6,24 @@ With this flood of data, we are poised to make huge progress on long standing ev
 However, the traditional framework for evolutionary inference has somewhat stalled new discoveries.
 
 Many of the issues we are facing can be mitigated with evolutionary simulations.
-A great deal of progress has been made on evolutionary inference tools \citep{haller_slim_2019,kelleher_efficient_2016, haller_tree-sequence_2019,adrion_community-maintained_2020}.
+A great deal of progress has been made on evolutionary simulation tools \citep{haller_slim_2019,kelleher_efficient_2016, haller_tree-sequence_2019,adrion_community-maintained_2020}.
 These advancements, coupled with huge increases in computational power, now allow us to use simulations to effectively infer previously intractable likelihoods,
 and to explore features of the data that are not easy to model mathematically.
 Indeed, over the past decade simulation-based inference has gained immense popularity \citep{schrider_shic_2016,torres_human_2018,caldas_inference_2022,chan_likelihood-free_2018,korfmann_simultaneous_2023}.
 
+% importance of standards and reproducibility
+As the questions and models increase in complexity, 
+there is a growing need for standards in simulation models and for increase reproducibility.
+\stdpopsim is a community-maintained library for previously published simulation models, 
+which includes species-specific population genetic parameters (\eg mutation rates, recombination maps) as well as demographic and selection models.
+Much more is needed still in two fronts:
+(i) benchmarking our current tools under a common variety of evolutionary scenarios, and
+(ii) verifying for consistency of published models, for example by ensuring that the models can yield simulated data that actually resembles the real data.
 
+% arg and inference
+The move from 
+The adoption of a common data structure across evolutionary simulation tools, the tree sequence, 
+
+% some remaining issues
+
+% outlook 
