@@ -1,6 +1,40 @@
 \abstract{
-	\IfFileExists{Abstract_Section.md.tex}{
-		\input{Abstract_Section.md.tex} % This loads the file. This is relative to the location of this file.
-	}
-	{} % If the file *doesn't exist, do nothing.
+Evolutionary processes impact patterns of genetic variation,
+so there is an opportunity to reverse this relationship and use genetic data to learn about past evolutionary events.
+Traditional evolutionary inference from genetic data is plagued by a few issues:
+(i) different processes can impact a particular feature in similar ways, 
+making it difficult to disentangle them;
+(ii) there is a growing need for modeling interactions between processes; and
+(iii) many models do not make full use of genomic data and instead assume that loci are unlinked.
+
+Simulation-based evolutionary inference can help alleviate many of these issues.
+It is now possible to simulate complex evolutionary scenarios, 
+and these can be used to approximate analytically intractable likelihoods,
+for example by using supervised machine learning.
+The major downsides to using simulations is the computational cost,
+but recent advancements both in hardware and software have lessened this cost.
+In this dissertation,
+I pushed the boundaries on how simulation-based inference can be applied in evolutionary genetics.
+
+To mitigate the costs associated with simulations,
+I made a few contributions to the \tskit ecosystem of evolutionary simulation tools.
+First, I developed a way to partially parallelize the simulation of multiple populations to make inference using multi-population genomic datasets more feasible.
+Second, I helped create standards for reproducible simulations with natural selection within the \stdpopsim consortium.
+I implemented the ability to simulate using previously published distribution of fitness effects (DFEs) and to simulate selective sweeps.
+I demonstrate the utility of this tool by tackling the long-standing question of whether the power to detect sweeps varies along realistic chromosomes.
+
+Next, I used simulations to better understand the behavior of a complex multi-population model.
+Species can be thought as semi-independent realizations of the same (or very similar) evolutionary process.
+Thus, by looking at multiple species at once it may be possible to better disentangle the processes that shape variation along genomes.
+Using simulations, I show that positive selection is necessary to explain the genetic data obtained from multiple great ape species.
+Further, I lay down a framework for leveraging multi-species information to better undestand the effects of different processes on a group's evolutionary history.
+
+Lastly, I present a new method that uses whole-genome genealogies for evolutionary inference.
+This data structure efficiently and sufficiently encodes evolutionary processes.
+I develop a machine-learning framework, tsNN, that takes whole-genome genealogies as inputs
+and is flexible enough to perform tasks at different scales (\eg inferring mutation times, demographic parameters, etc.).
+I demonstrate that tsNN can learn to predict mutation times accurately, outperforming current likelihood-based methods.
+tsNN, represents an important step in genealogy-based evolutionary inference, 
+but there still much work to be done in applying deep learning to gain new insights into past evolutionary events.
+
 }

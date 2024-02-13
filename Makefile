@@ -14,6 +14,7 @@ chapter_greatapes.tex:
 
 chapter_tsnn.tex:
 	cp ../tsnn-paper/body.tex $@
+	cp -r ../tsnn-paper/tsnn_figs .
 
 $(MAIN).pdf: *.tex $(REF).bib chapter_greatapes.tex
 	$(LATEX) $(LATEXFLAGS) $(MAIN).tex
