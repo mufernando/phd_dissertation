@@ -373,7 +373,7 @@ of this document.}
   \@upperauthor\\
   \vfill
   \ifdraft\@disclaimer\\\fi\vfill
-   A \@papertype\ \if@approved accepted and approved \else presented \fi in partial fulfillment \\
+   A \@papertype\ accepted and approved in partial fulfillment \\
    of the requirements for the degree of \\*[\baselineskip]
    \@degree \\*
    in \@narrowdepartment \\

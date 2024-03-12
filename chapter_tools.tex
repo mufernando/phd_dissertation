@@ -22,7 +22,7 @@ a process which is error-prone and results in duplication of effort.
 Indeed, a recent study described errors in the implementation of a demographic model in two published papers,
 which affected the interpretation of biological signals \citep{ragsdale_lessons_2020}.
 
-Stdpopsim is a community-driven open source developed to minimize these issues \citep{adrion_community-maintained_2020, lauterbur_expanding_2023}.
+Stdpopsim is a community-driven open source package developed to minimize these issues \citep{adrion_community-maintained_2020, lauterbur_expanding_2023}.
 We organized a well-documented library with published simulation models from a range of organisms,
 which can be accessed with simple Python and command-line interfaces.
 The library contains demographic models, recombination maps and mutation rates for tens of species.
@@ -30,10 +30,11 @@ All the models have to pass a quality control method, in which an independent pa
 Further, we provide a Python API to easily run simulations using the catalog, with msprime and SLiM as simulators on the backend,
 decreasing even further the barrier to reproducing simulations.
 
-In this chapter, I will present two vignettes of my contributions to the ecosystem of evolutionary simulation tools.
+In this chapter, my contributions to the current ecosystem of evolutionary simulation tools in two vignettes.
 First, I describe a method I devised to make multi-population simulations faster with parallelization, which is enabled by tree sequences.
 Second, I report my main contribution to \stdpopsim: the inclusion of selection models.
 Using this new feature, I investigate how the power to detect sweeps along more realistic chromosomes.
+Both of these contributions will appear (in some form) in future publications of the tree sequence toolkit library (\tskit) and of the \stdpopsim consortium.
 
 
 \section{A way to parallelize multi-population simulations with tree sequences}
@@ -66,6 +67,7 @@ To parallelize the simulations, we need to
 There are many ways to parallelize the simulations, but see \citet{rodrigues_vignette_2021} for an idea.
 Below, I will describe the operation for putting together two (or more) tree sequences,
 which I implemented in \tskit (see \url{https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.union} for the documentation).
+A description of this operation will appear in an upcoming publication describing the tree sequence toolkit library (\tskit).
 
 The information underlying a tree sequence is stored as a collection of tables which define different features.
 This simple tabular format allows for rapid accessing of information.
@@ -198,10 +200,11 @@ In such cases, sweeps can be separated from constraint more easily.
 
 To better understand the role of positive selection in shaping genetic variation across the genome,
 it is necessary to better delineate how different processes impact our ability to detect selective sweeps.
-I present below our efforts to include models of natural selection to Stdpopsim, our community-driven library of evolutionary models.
+I present below our efforts to include models of natural selection to \stdpopsim, our community-driven library of evolutionary models.
 Colleagues and I included the ability to easily simulate background selection and selective sweeps using previously published distribution of fitness effects (DFEs).
 I then leveraged this new feature to understand how power to detect selective sweeps varies over a realistic looking human chromosome,
 with recombination rate variation and a map of constraint taken from human annotations.
+These results will appear in an upcoming publication of the \stdpopsim consortium.
 
 \subsection{Adding selection to simulations using Stdpopsim}
 

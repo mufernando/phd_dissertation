@@ -3,8 +3,8 @@
 % Genetic data carries information about past evolutionary events
 Processes like mutation, recombination, assortative mating and selection leave footprints on genetic variation.
 A major goal of population genetics has been to invert this relationship and infer past, unobserved evolutionary events from genetic variation data \citep{schraiber_methods_2015}.
-However, with the dramatic increase in our ability to generate whole-genome data,
-there is a need for more efficient inference methods that can scale well to over tens of thousands of individuals.
+With the dramatic increase in our ability to generate whole-genome data,
+there is a growing need for more efficient inference methods capable of scaling well to handle over tens of thousands of individuals.
 
 % How has inference been done traditionally?
 % Thinking about how processes impact trees, then translating that into summary statistics that can be computed from genetic data.
@@ -26,7 +26,7 @@ coalescences (where separate lineages merge into a common ancestor),
 and recombinations (where a single lineage splits into multiple lineages, moving backward in time).
 Crucially, ancestors are ``local'' in the sense that only a subset of the ancestors in the entire ARG are associated with each location in the genome.
 Thus, one factorization of ARG is into a sequence of correlated marginal trees,
-where changes in tree structure are caused by recombination events \citep{kelleher_efficient_2016, kelleher_inferring_2019}.
+where changes in tree structure are caused by recombination events \citep{kelleher_efficient_2016, kelleher_inferring_2019, speidel_method_2019}.
 The branches of these trees have two dimensions:
 the time separating descendant from ancestor,
 and the length of sequence spanned by the tree containing the branch.
@@ -55,8 +55,9 @@ Assume the underlying ARG for a dataset could be observed.
 Using the ARG as an input would solve many of the issues above \citep{rasmussen_genome-wide_2014}. 
 This is because it is simultaneously: 
 (A) sufficient, in the sense that it contains all information obtainable from observed genetic data; 
-(B) compact, in the sense that shared genetic variation is naturally encoded in marginal trees; 
-(C) multiscale, in the sense that the span of ancestral haplotypes and edges naturally reflects the "spatial" and temporal scales at which shared ancestry impacts variation, without arbitrary discretization into windows.
+(B) compact, in the sense that shared genetic variation is encoded as relationships between ancestral haplotypes; 
+(C) multiscale, in the sense that the span of ancestral haplotypes and edges naturally reflects the "spatial" and temporal scales at which shared ancestry impacts variation,
+without arbitrary discretization into windows.
 
 % talk about tree sequence / ARG inference
 This core idea of using ARGs for evolutionary inference has two challenges in practice. 
@@ -68,13 +69,13 @@ Second, we need some way to ``parameterize'' the ARG in terms of quantities we a
 This would traditionally be done by specifying some generative process, like the coalescent with recombination,
 and calculating likelihood of observed genetic data conditional on this process \citep{fan_likelihood-based_2023}. 
 However, these likelihoods are only tractable under a very small class of models. 
-Likelihood free inference seems to be the most promising solution,
+Likelihood-free inference seems to be the most promising solution,
 specially now given recent advances in population genetic simulation tools that allow ARG recording \citep{haller_tree-sequence_2019, kelleher_efficient_2016, ralph_efficiently_2020}. 
 %Still, it remains an open problem how to compute a measure of goodness of fit between simulated and inferred ARGs.
 
 Graph neural networks (GNNs), an emerging class of deep learning algorithms, provide a natural way to exploit ARGs for evolutionary inference.
 These networks fall into the broader message passing paradigm whereby information is aggregated in neighborhood of nodes,
-ultimately yielding an embedding for nodes in a graph \citep{bronstein_geometric_2017, battaglia_relational_2018, hamilton_inductive_2018}..
+ultimately yielding an embedding for nodes in a graph \citep{bronstein_geometric_2017, battaglia_relational_2018, hamilton_inductive_2018}.
 These node embeddings can then be used for downstream tasks such as node classification, graph classification, and edge prediction.
 GNNs can leverage information from genealogies (\ie historical relationships between nodes and the timing of coalescent events) \citep{korfmann_simultaneous_2023},
 but they would not take into account additional structure in ARGs induced by the spatial (along the chromosome) and temporal (from parent to child) ordering of nodes.
@@ -96,7 +97,7 @@ then we use an update scheme that takes an edge and updates the embedding of bot
 Because the flow of information is structured from parent to child and from left-to-right,
 we hoped this neural network would learn a better representation of a tree sequence than a more naive approach,
 such as a simpler graph neural network.
-The node embeddings can then be decoded to obtain edge (and mutation) embeddings or a tree sequence level embedding.
+The node embeddings can then be decoded to obtain embeddings at different levels (\eg at the edge, mutation or tree sequence level).
 
 \begin{figure}[htp]
 \includegraphics[width=0.8\linewidth]{{tsnn_figs/nn.pdf}}
