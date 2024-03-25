@@ -234,11 +234,11 @@ of this document.}
 \vfill\LaTeX
 }
 
-\def\covertitle#1{\gdef\@covertitle{#1}\gdef\@uppercovertitle{\begin{doublespace} \uppercase{#1} \end{doublespace}}}
+\def\covertitle#1{\gdef\@covertitle{#1}\gdef\@uppercovertitle{\begin{doublespace} #1 \end{doublespace}}}
 \def\abstracttitle#1{\gdef\@abstracttitle{#1}\gdef\@upperabstracttitle{\uppercase{#1}}}
 
-\def\author#1{\gdef\@author{#1}\gdef\@upperauthor{\uppercase{#1}}}
-\def\narrowauthor#1{\gdef\@narrowauthor{#1}\gdef\@uppernarrowauthor{\uppercase{#1}}}
+\def\author#1{\gdef\@author{#1}\gdef\@upperauthor{#1}}
+\def\narrowauthor#1{\gdef\@narrowauthor{#1}\gdef\@uppernarrowauthor{#1}}
 
 \def\department#1{\gdef\@department{#1}}
 \def\narrowdepartment#1{\gdef\@narrowdepartment{#1}}
@@ -432,7 +432,12 @@ of this document.}
 % Automatically give the author and year, without an extra linebreak beneath (as you would get from using '\ifbound\else\centerline{\copyright ~\thedegreeyear ~\@author}\fi'):
 \copyright ~\thedegreeyear ~\@author \\
 
-All rights reserved.
+This work is licensed under a Creative Commons\\
+\href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{Attribution 4.0 International License (CC BY-NC-SA)}.\\
+
+\begin{center}
+\includegraphics[scale=1]{by-nc-sa.png}
+\end{center}
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Below is an example for a Creative-Commons style license, if you want
@@ -471,9 +476,7 @@ All rights reserved.
     \vspace*{3ex}
     \noindent
     \@author\\*[\baselineskip]
-    \@degree\\*[\baselineskip]
-    \@department\\*[\baselineskip]
-    \@degreemonth ~\thedegreeyear\\*[\baselineskip]
+    \@degree in \@department\\*[\baselineskip]
     Title: \@abstracttitle\\*[\baselineskip]
     %\\*[2\baselineskip]
   \end{spacing}
@@ -577,7 +580,7 @@ All rights reserved.
 }
 
 \def\@maketitlepages{
-  \pagenumbering{roman}
+  \pagenumbering{arabic}
   \@maketitlepage
   \if@approved
     \@makeapprovepage
@@ -657,7 +660,7 @@ Draft of \@longdraftdate\\
         \@maketitlepages
       \else
         \@makedraftcover
-        \pagenumbering{roman}
+        \pagenumbering{arabic}
         \listoftodos \clearpage
         \@tableofcontents
         \ifnofigures\else
@@ -677,8 +680,6 @@ Draft of \@longdraftdate\\
   \fi
   \pagestyle{plain}
   \ifjustified\else\RaggedRight\fi
-  \pagenumbering{arabic}
-  \setcounter{page}{1}
 }
 
 \def\@footlines#1{\hbox to\textwidth{#1}}
